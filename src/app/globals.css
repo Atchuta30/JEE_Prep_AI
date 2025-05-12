@@ -44,14 +44,14 @@ body {
     --radius: 0.5rem;
 
     /* For glowing grid */
-    --grid-color: hsl(var(--border) / 0.3); /* Slightly more transparent grid lines */
-    --glow-color: hsl(var(--accent)); /* Radial glow color - fully opaque accent */
+    --grid-dot-base-color: hsl(var(--foreground) / 0.1); /* Faint dark dots on light bg */
+    --shimmer-glow-color: hsl(var(--accent) / 0.1); /* Subtle accent glow for light mode */
     --mouse-x: 50%;
     --mouse-y: 50%;
   }
 
   .dark {
-    --background: 0 0% 3.9%;
+    --background: 0 0% 3.9%; /* near black */
     --foreground: 0 0% 98%;
 
     --card: 0 0% 3.9%;
@@ -85,8 +85,9 @@ body {
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%;
     
-    --grid-color: hsl(var(--border) / 0.35); /* Slightly more transparent grid lines for dark mode */
-    --glow-color: hsl(var(--accent)); /* Radial glow color for dark mode - fully opaque accent */
+    /* For glowing grid in dark mode */
+    --grid-dot-base-color: hsl(var(--accent) / 0.15); /* Faint accent-colored dots */
+    --shimmer-glow-color: hsl(var(--accent) / 0.25); /* Slightly stronger accent glow for dark mode */
   }
 }
 
@@ -113,13 +114,34 @@ mjx-container[jax="CHTML"][display="true"] {
   padding-bottom: 0.25em; /* Add some padding if equations get cut off */
 }
 
-/* Styles for the grid lines element */
-.grid-lines-element {
-  background-image: linear-gradient(to right, var(--grid-color) 1px, transparent 1px),
-                    linear-gradient(to bottom, var(--grid-color) 1px, transparent 1px);
+/* Styles for the shimmer grid background (dots) */
+.shimmer-grid-background {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background-image: radial-gradient(var(--grid-dot-base-color) 1px, transparent 0); /* 2px diameter dots */
+  background-size: 2rem 2rem; /* Grid cell size */
+  background-position: center center; /* Center dots in cells */
+}
+
+/* Styles for the shimmer glow effect around the mouse */
+.shimmer-glow-effect {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(
+    circle 200px at var(--mouse-x) var(--mouse-y),
+    var(--shimmer-glow-color),
+    transparent 60% /* Falloff for the glow */
+  );
+  opacity: 0; /* Hidden by default */
+  transition: opacity 0.2s ease-out; /* Smooth transition for anpeparance/disappearance */
+  pointer-events: none; /* Ensure it doesn't interfere with mouse events on elements below */
 }
 
 /* Glowing grid overlay visibility on body hover */
-body:hover .glow-overlay {
-  opacity: 1;
+body:hover .shimmer-glow-effect {
+  opacity: 1; /* Show glow effect when body (or anything) is hovered */
 }
