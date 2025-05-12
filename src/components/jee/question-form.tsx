@@ -23,7 +23,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import type { JEEPaperDifficulty, JEEPaperSubject } from "@/lib/types";
-import { Wand2, ChevronsUpDown, XCircle } from "lucide-react";
+import { Wand2, ChevronsUpDown, XCircle, Atom, FlaskConical, Sigma } from "lucide-react";
 import { useEffect, useState } from "react";
 import {
   DropdownMenu,
@@ -152,16 +152,16 @@ export function QuestionForm({ onSubmit, isLoading = false, defaultValues }: Que
     );
   };
 
-  const subjects: { value: JEEPaperSubject; label: string; icon?: React.ElementType }[] = [
-    { value: "Physics", label: "Physics" },
-    { value: "Chemistry", label: "Chemistry" },
-    { value: "Mathematics", label: "Mathematics" },
+  const subjects: { value: JEEPaperSubject; label: string; icon: React.ElementType }[] = [
+    { value: "Physics", label: "Physics", icon: Atom },
+    { value: "Chemistry", label: "Chemistry", icon: FlaskConical },
+    { value: "Mathematics", label: "Mathematics", icon: Sigma },
   ];
 
-  const difficulties: { value: JEEPaperDifficulty; label: string }[] = [
-    { value: "Easy", label: "Easy" },
-    { value: "Medium", label: "Medium" },
-    { value: "Hard", label: "Hard" },
+  const difficulties: { value: JEEPaperDifficulty; label: string; emoji: string }[] = [
+    { value: "Easy", label: "Easy", emoji: "😊" },
+    { value: "Medium", label: "Medium", emoji: "😐" },
+    { value: "Hard", label: "Hard", emoji: "🔥" },
   ];
 
   const handleFormSubmit = (values: QuestionFormValues) => {
@@ -189,7 +189,10 @@ export function QuestionForm({ onSubmit, isLoading = false, defaultValues }: Que
                   <SelectContent>
                     {subjects.map((s) => (
                       <SelectItem key={s.value} value={s.value}>
-                        {s.label}
+                        <div className="flex items-center gap-2">
+                          <s.icon className="h-4 w-4" />
+                          {s.label}
+                        </div>
                       </SelectItem>
                     ))}
                   </SelectContent>
@@ -213,7 +216,10 @@ export function QuestionForm({ onSubmit, isLoading = false, defaultValues }: Que
                   <SelectContent>
                     {difficulties.map((d) => (
                       <SelectItem key={d.value} value={d.value}>
-                        {d.label}
+                        <div className="flex items-center gap-2">
+                          <span role="img" aria-label={d.label} className="text-lg">{d.emoji}</span>
+                          {d.label}
+                        </div>
                       </SelectItem>
                     ))}
                   </SelectContent>
