@@ -132,7 +132,7 @@ export default function HomePage() {
 
   return (
     <div className="space-y-12">
-      <Card className="shadow-xl overflow-hidden bg-card/80 backdrop-blur-md border">
+      <Card className="shadow-xl overflow-hidden bg-card/30 backdrop-blur-md border">
         <CardHeader className="bg-gradient-to-r from-primary/80 to-primary/70 text-primary-foreground p-8">
           <div className="flex items-center gap-4">
             <Lightbulb size={48} />
@@ -153,7 +153,7 @@ export default function HomePage() {
         <div className="space-y-4 mt-8">
           <Skeleton className="h-12 w-1/3" />
           {[...Array(3)].map((_, i) => (
-            <Card key={i} className="shadow-lg bg-card/80 backdrop-blur-md border">
+            <Card key={i} className="shadow-lg bg-card/30 backdrop-blur-md border">
               <CardHeader>
                 <Skeleton className="h-6 w-1/4 mb-2 bg-muted/50" />
                 <Skeleton className="h-4 w-full bg-muted/50" />
