@@ -45,7 +45,6 @@ body {
 
     /* For glowing grid */
     --grid-color: hsl(var(--border) / 0.4);
-    --grid-color-hover: hsl(var(--accent) / 0.5); /* Grid lines color on hover */
     --glow-color: hsl(var(--accent) / 0.15); /* Radial glow color */
     --mouse-x: 50%;
     --mouse-y: 50%;
@@ -87,7 +86,6 @@ body {
     --chart-5: 340 75% 55%;
     
     --grid-color: hsl(var(--border) / 0.5);
-    --grid-color-hover: hsl(var(--accent) / 0.4); /* Grid lines color on hover for dark mode */
     --glow-color: hsl(var(--accent) / 0.2); /* Radial glow color for dark mode */
   }
 }
@@ -119,14 +117,6 @@ mjx-container[jax="CHTML"][display="true"] {
 .grid-lines-element {
   background-image: linear-gradient(to right, var(--grid-color) 1px, transparent 1px),
                     linear-gradient(to bottom, var(--grid-color) 1px, transparent 1px);
-  /* CSS transitions on background-image gradients are not reliably animatable for color changes.
-     The change will be instant. */
-}
-
-/* When body is hovered, change the grid lines color */
-body:hover .grid-lines-element {
-  background-image: linear-gradient(to right, var(--grid-color-hover) 1px, transparent 1px),
-                    linear-gradient(to bottom, var(--grid-color-hover) 1px, transparent 1px);
 }
 
 /* Glowing grid overlay visibility on body hover */
