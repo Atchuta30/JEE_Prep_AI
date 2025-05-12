@@ -44,8 +44,8 @@ body {
     --radius: 0.5rem;
 
     /* For glowing grid */
-    --grid-dot-base-color: hsl(var(--foreground) / 0.2); /* Darker faint dark dots on light bg */
-    --shimmer-glow-color: hsl(var(--accent) / 0.1); /* Subtle accent glow for light mode */
+    --grid-dot-base-color: hsl(var(--foreground) / 0.15); /* Darker faint dark dots on light bg */
+    --grid-dot-glow-color: hsl(var(--accent) / 0.7); /* Accent colored dots for glow */
     --mouse-x: 50%;
     --mouse-y: 50%;
   }
@@ -86,8 +86,8 @@ body {
     --chart-5: 340 75% 55%;
     
     /* For glowing grid in dark mode */
-    --grid-dot-base-color: hsl(var(--accent) / 0.25); /* Darker faint accent-colored dots */
-    --shimmer-glow-color: hsl(var(--accent) / 0.25); /* Slightly stronger accent glow for dark mode */
+    --grid-dot-base-color: hsl(var(--accent) / 0.15); /* Darker faint accent-colored dots */
+    --grid-dot-glow-color: hsl(var(--accent) / 0.85); /* Brighter accent dots for glow */
   }
 }
 
@@ -120,29 +120,41 @@ mjx-container[jax="CHTML"][display="true"] {
   inset: 0;
   width: 100%;
   height: 100%;
-  background-image: radial-gradient(var(--grid-dot-base-color) 1px, transparent 0); /* 2px diameter dots */
-  background-size: 2rem 2rem; /* Grid cell size */
-  background-position: center center; /* Center dots in cells */
+  background-image: radial-gradient(var(--grid-dot-base-color) 1px, transparent 0);
+  background-size: 2rem 2rem; 
+  background-position: center center;
 }
 
-/* Styles for the shimmer glow effect around the mouse */
+/* Styles for the glowing dots effect around the mouse */
 .shimmer-glow-effect {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
-  background: radial-gradient(
-    circle 200px at var(--mouse-x) var(--mouse-y),
-    var(--shimmer-glow-color),
-    transparent 60% /* Falloff for the glow */
+  
+  /* Pattern of glowing dots */
+  background-image: radial-gradient(var(--grid-dot-glow-color) 1px, transparent 0);
+  background-size: 2rem 2rem; /* Must match shimmer-grid-background */
+  background-position: center center; /* Must match shimmer-grid-background */
+
+  /* Mask to reveal only a circular area of glowing dots around the mouse */
+  mask-image: radial-gradient(
+    circle 40px at var(--mouse-x) var(--mouse-y), /* 40px radius circle for glowing area */
+    black 60%,  /* Area where glowing dots are fully visible (up to 24px radius) */
+    transparent 100% /* Fades to transparent by 40px radius */
   );
+  -webkit-mask-image: radial-gradient(
+    circle 40px at var(--mouse-x) var(--mouse-y),
+    black 60%,
+    transparent 100%
+  );
+  
   opacity: 0; /* Hidden by default */
-  transition: opacity 0.2s ease-out; /* Smooth transition for anpeparance/disappearance */
-  pointer-events: none; /* Ensure it doesn't interfere with mouse events on elements below */
+  transition: opacity 0.2s ease-out;
+  pointer-events: none;
 }
 
 /* Glowing grid overlay visibility on body hover */
 body:hover .shimmer-glow-effect {
-  opacity: 1; /* Show glow effect when body (or anything) is hovered */
+  opacity: 1; /* Show glowing dots effect when body (or anything) is hovered */
 }
-
