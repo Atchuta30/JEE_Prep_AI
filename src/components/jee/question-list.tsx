@@ -45,18 +45,30 @@ export const QuestionList: FC<QuestionListProps> = ({ paper, onPaperSubmit, isRe
   };
 
   const calculateScore = () => {
-    if (!isSubmitted) return { score: 0, total: paper.questions.length, answered: 0, correct: 0 };
-    let score = 0;
-    let answeredCount = 0;
-    paper.questions.forEach((q, index) => {
-      if (answers[index] !== null) {
-        answeredCount++;
-        if (answers[index] === q.correctAnswer) {
-          score++;
+    let calculatedScore = 0;
+    let calculatedAnsweredCount = 0;
+    let calculatedCorrectCount = 0;
+
+    paper.questions.forEach((question, index) => {
+      if (answers[index] !== null) { // Check current answers state
+        calculatedAnsweredCount++;
+        // Score and correct count are only determined if the paper is submitted
+        if (isSubmitted && answers[index] === question.correctAnswer) {
+          calculatedScore++;
+          calculatedCorrectCount++;
         }
       }
     });
-    return { score, total: paper.questions.length, answered: answeredCount, correct: score };
+
+    return {
+      // Score is the number of correct answers if submitted, otherwise 0.
+      score: calculatedScore, 
+      total: paper.questions.length,
+      // Answered count is always based on current selections.
+      answered: calculatedAnsweredCount,
+      // Correct count is the number of correct answers if submitted, otherwise 0.
+      correct: calculatedCorrectCount, 
+    };
   };
 
   const { score, total, answered, correct } = calculateScore();
@@ -128,7 +140,7 @@ export const QuestionList: FC<QuestionListProps> = ({ paper, onPaperSubmit, isRe
             <p className="text-muted-foreground mt-1">
               You answered {answered} questions and got {correct} correct.
             </p>
-            {paper.score !== undefined && <p className="text-xs text-muted-foreground">(Paper recorded score: {paper.score}/{total})</p>}
+            {paper.score !== undefined && paper.score !== null && showScore && <p className="text-xs text-muted-foreground">(Paper recorded score: {paper.score}/{total})</p>}
           </CardContent>
         </Card>
       )}
