@@ -133,12 +133,12 @@ export default function HomePage() {
   return (
     <div className="space-y-12">
       <Card className="shadow-xl overflow-hidden bg-black/10 backdrop-blur-md border">
-        <CardHeader className="bg-black text-primary-foreground p-8">
+        <CardHeader className="bg-black dark:bg-[#F5F5F5] text-primary-foreground dark:text-black p-8">
           <div className="flex items-center gap-4">
             <Lightbulb size={48} />
             <div>
               <CardTitle className="text-3xl font-bold">Generate Your JEE Mock Paper</CardTitle>
-              <CardDescription className="text-primary-foreground/90 mt-1 text-lg">
+              <CardDescription className="text-primary-foreground/90 dark:text-black/90 mt-1 text-lg">
                 Tailor questions to your study needs. Select subject, topics, difficulty, and number of questions.
               </CardDescription>
             </div>
