@@ -132,7 +132,7 @@ export default function HomePage() {
 
   return (
     <div className="space-y-12">
-      <Card className="shadow-xl overflow-hidden bg-black/50 backdrop-blur-md border">
+      <Card className="shadow-xl overflow-hidden bg-black/10 backdrop-blur-md border">
         <CardHeader className="bg-gradient-to-r from-primary/80 to-primary/70 text-primary-foreground p-8">
           <div className="flex items-center gap-4">
             <Lightbulb size={48} />
