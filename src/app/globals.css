@@ -44,7 +44,7 @@ body {
     --radius: 0.5rem;
 
     /* For glowing grid */
-    --grid-dot-base-color: hsl(var(--foreground) / 0.1); /* Faint dark dots on light bg */
+    --grid-dot-base-color: hsl(var(--foreground) / 0.2); /* Darker faint dark dots on light bg */
     --shimmer-glow-color: hsl(var(--accent) / 0.1); /* Subtle accent glow for light mode */
     --mouse-x: 50%;
     --mouse-y: 50%;
@@ -86,7 +86,7 @@ body {
     --chart-5: 340 75% 55%;
     
     /* For glowing grid in dark mode */
-    --grid-dot-base-color: hsl(var(--accent) / 0.15); /* Faint accent-colored dots */
+    --grid-dot-base-color: hsl(var(--accent) / 0.25); /* Darker faint accent-colored dots */
     --shimmer-glow-color: hsl(var(--accent) / 0.25); /* Slightly stronger accent glow for dark mode */
   }
 }
@@ -145,3 +145,4 @@ mjx-container[jax="CHTML"][display="true"] {
 body:hover .shimmer-glow-effect {
   opacity: 1; /* Show glow effect when body (or anything) is hovered */
 }
+
