@@ -162,12 +162,12 @@ mjx-container[jax="CHTML"][display="true"] {
 
   /* Mask to reveal only a circular area of glowing dots around the mouse */
   mask-image: radial-gradient(
-    circle 40px at var(--mouse-x) var(--mouse-y), /* 40px radius circle for glowing area */
-    black 60%,  /* Area where glowing dots are fully visible (up to 24px radius) */
-    transparent 100% /* Fades to transparent by 40px radius */
+    circle 80px at var(--mouse-x) var(--mouse-y), /* 80px radius circle for glowing area */
+    black 60%,  /* Area where glowing dots are fully visible (up to 48px radius) */
+    transparent 100% /* Fades to transparent by 80px radius */
   );
   -webkit-mask-image: radial-gradient(
-    circle 40px at var(--mouse-x) var(--mouse-y),
+    circle 80px at var(--mouse-x) var(--mouse-y),
     black 60%,
     transparent 100%
   );
