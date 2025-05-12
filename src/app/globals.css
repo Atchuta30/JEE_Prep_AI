@@ -17,7 +17,7 @@ body {
     --popover: 0 0% 100%;
     --popover-foreground: 0 0% 3.9%;
 
-    --primary: 0 0% 3.9%; /* black #0a0a0a */
+    --primary: 0 0% 0%; /* black #000000 */
     --primary-foreground: 0 0% 100%; /* white */
 
     --secondary: 0 0% 94%; /* light gray #f0f0f0 */
@@ -26,15 +26,15 @@ body {
     --muted: 0 0% 90%; /* gray #e5e5e5 */
     --muted-foreground: 0 0% 40%; /* darker gray #666666 */
 
-    --accent: 0 0% 3.9%; /* black, same as primary */
-    --accent-foreground: 0 0% 100%; /* white, same as primary-foreground */
+    --accent: 200 51% 45%; /* #3D94C0 (Vibrant Green from proposal - keeping for specific CTAs) */
+    --accent-foreground: 0 0% 100%; /* white */
 
-    --destructive: 0 0% 3.9%; /* black */
+    --destructive: 0 0% 0%; /* black */
     --destructive-foreground: 0 0% 100%; /* white */
 
     --border: 0 0% 87%; /* gray #dedede */
     --input: 0 0% 87%;
-    --ring: 0 0% 3.9%; /* black */
+    --ring: 0 0% 0%; /* black */
 
     --radius: 0.5rem;
 
@@ -46,8 +46,9 @@ body {
     --chart-5: 0 0% 60%;
 
     /* For glowing grid */
-    --grid-dot-base-color: hsl(0 0% 0% / 0.08); /* Faint black dots */
-    --grid-dot-glow-color: hsl(0 0% 0% / 0.65); /* More opaque black for glow */
+    --grid-dot-base-color: hsl(0 0% 0% / 0.12); /* Darker black dots */
+    --grid-dot-glow-color: hsl(200 51% 45% / 0.85); /* Brighter, more contrasting glow, using accent color */
+
     --mouse-x: 50%;
     --mouse-y: 50%;
 
@@ -63,17 +64,17 @@ body {
   }
 
   .dark {
-    --background: 0 0% 3.9%; /* black #0a0a0a */
-    --foreground: 0 0% 98%; /* near white #fafafa */
+    --background: 0 0% 0%; /* black #000000 */
+    --foreground: 0 0% 100%; /* white #ffffff */
 
-    --card: 0 0% 3.9%;
-    --card-foreground: 0 0% 98%;
+    --card: 0 0% 3.9%; /* very dark gray, near black #0a0a0a */
+    --card-foreground: 0 0% 98%; /* near white #fafafa */
 
     --popover: 0 0% 3.9%;
     --popover-foreground: 0 0% 98%;
 
-    --primary: 0 0% 98%; /* near white */
-    --primary-foreground: 0 0% 3.9%; /* black */
+    --primary: 0 0% 100%; /* white */
+    --primary-foreground: 0 0% 0%; /* black */
 
     --secondary: 0 0% 10%; /* dark gray #1a1a1a */
     --secondary-foreground: 0 0% 98%;
@@ -81,15 +82,15 @@ body {
     --muted: 0 0% 15%; /* slightly lighter dark gray #262626 */
     --muted-foreground: 0 0% 70%; /* lighter gray #b3b3b3 */
 
-    --accent: 0 0% 98%; /* near white, same as primary */
-    --accent-foreground: 0 0% 3.9%; /* black, same as primary-foreground */
+    --accent: 200 51% 55%; /* #3D94C0 (Vibrant Green from proposal - slightly lighter for dark mode) */
+    --accent-foreground: 0 0% 0%; /* black */
 
-    --destructive: 0 0% 98%; /* near white */
-    --destructive-foreground: 0 0% 3.9%; /* black */
+    --destructive: 0 0% 100%; /* white */
+    --destructive-foreground: 0 0% 0%; /* black */
 
     --border: 0 0% 20%; /* dark gray #333333 */
     --input: 0 0% 20%;
-    --ring: 0 0% 98%; /* near white */
+    --ring: 0 0% 100%; /* white */
 
     /* Chart Colors - Monochrome (shades of light gray/white for dark mode) */
     --chart-1: 0 0% 80%;
@@ -99,8 +100,8 @@ body {
     --chart-5: 0 0% 40%;
     
     /* For glowing grid in dark mode */
-    --grid-dot-base-color: hsl(0 0% 100% / 0.08); /* Faint white dots */
-    --grid-dot-glow-color: hsl(0 0% 100% / 0.65); /* More opaque white for glow */
+    --grid-dot-base-color: hsl(0 0% 100% / 0.12); /* Darker white dots */
+    --grid-dot-glow-color: hsl(200 51% 55% / 0.85); /* Brighter, more contrasting glow using accent color */
 
     /* Sidebar variables for dark mode */
     --sidebar-background: var(--card);
@@ -162,12 +163,12 @@ mjx-container[jax="CHTML"][display="true"] {
 
   /* Mask to reveal only a circular area of glowing dots around the mouse */
   mask-image: radial-gradient(
-    circle 120px at var(--mouse-x) var(--mouse-y), /* Increased radius for glowing area */
+    circle 150px at var(--mouse-x) var(--mouse-y), /* Increased radius for glowing area */
     black 60%,  /* Area where glowing dots are fully visible */
     transparent 100% /* Fades to transparent */
   );
   -webkit-mask-image: radial-gradient(
-    circle 120px at var(--mouse-x) var(--mouse-y), /* Increased radius for glowing area */
+    circle 150px at var(--mouse-x) var(--mouse-y), /* Increased radius for glowing area */
     black 60%,
     transparent 100%
   );
@@ -182,3 +183,27 @@ body:hover .shimmer-glow-effect {
   opacity: 1; /* Show glowing dots effect when body (or anything) is hovered */
 }
 
+html {
+    font-family: 'Open Sans', sans-serif; /* Example of a clean sans-serif font */
+}
+
+/* Apply unique fonts and styles for Swiss typography feel if desired */
+/* Example:
+h1, h2, h3, .swiss-title {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; 
+    font-weight: bold;
+}
+.swiss-text-body {
+    font-family: 'Univers', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    line-height: 1.6;
+}
+*/
+
+/* Ensure math-related icons are styled if they are SVGs or font icons */
+.math-icon {
+    display: inline-block;
+    width: 1.2em;
+    height: 1.2em;
+    vertical-align: middle;
+    /* Add more specific styling if needed */
+}
