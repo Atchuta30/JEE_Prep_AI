@@ -132,8 +132,8 @@ export default function HomePage() {
 
   return (
     <div className="space-y-12">
-      <Card className="shadow-xl overflow-hidden bg-black/10 backdrop-blur-md border">
-        <CardHeader className="bg-black dark:bg-[#F5F5F5] text-primary-foreground dark:text-black p-8">
+      <Card className="shadow-xl overflow-hidden bg-black/20 backdrop-blur-md border">
+        <CardHeader className="bg-black dark:bg-[#F5F5F5] text-primary-foreground dark:text-black/90 p-8">
           <div className="flex items-center gap-4">
             <Lightbulb size={48} />
             <div>
