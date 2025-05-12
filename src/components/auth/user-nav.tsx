@@ -41,12 +41,35 @@ export function UserNav() {
         </Button>
         <Button
           asChild
-          // Uses default variant for:
-          // Light theme: black bg, white text.
-          // Dark theme: white bg, black text.
+          className="relative overflow-hidden group
+                     bg-background text-foreground
+                     dark:bg-foreground dark:text-background
+                     transition-colors duration-300 ease-in-out"
         >
-          <Link href="/signup">
-            <PlusCircle className="mr-2 h-4 w-4" /> Sign Up
+          <Link href="/signup" className="flex items-center justify-center w-full h-full">
+            {/* Water fill effect element */}
+            <span
+              className="absolute bottom-0 left-0 w-full h-0
+                         bg-black
+                         transition-all duration-[700ms] ease-out
+                         group-hover:h-full"
+              aria-hidden="true"
+            />
+            {/* Icon and Text */}
+            <PlusCircle
+              className="mr-2 h-4 w-4 relative z-10
+                         text-foreground group-hover:text-white
+                         dark:text-background dark:group-hover:text-white
+                         transition-colors duration-300"
+            />
+            <span
+              className="relative z-10
+                         text-foreground group-hover:text-white
+                         dark:text-background dark:group-hover:text-white
+                         transition-colors duration-300"
+            >
+              Sign Up
+            </span>
           </Link>
         </Button>
       </div>
@@ -104,4 +127,3 @@ export function UserNav() {
     </DropdownMenu>
   );
 }
-
