@@ -1,3 +1,4 @@
+// src/app/page.tsx
 "use client";
 
 import { useState } from 'react';
@@ -131,13 +132,13 @@ export default function HomePage() {
 
   return (
     <div className="space-y-12">
-      <Card className="shadow-xl overflow-hidden">
-        <CardHeader className="bg-gradient-to-r from-primary/90 to-primary text-primary-foreground p-8">
+      <Card className="shadow-xl overflow-hidden bg-card/80 backdrop-blur-md border">
+        <CardHeader className="bg-gradient-to-r from-primary/80 to-primary/70 text-primary-foreground p-8">
           <div className="flex items-center gap-4">
             <Lightbulb size={48} />
             <div>
               <CardTitle className="text-3xl font-bold">Generate Your JEE Mock Paper</CardTitle>
-              <CardDescription className="text-primary-foreground/80 mt-1 text-lg">
+              <CardDescription className="text-primary-foreground/90 mt-1 text-lg">
                 Tailor questions to your study needs. Select subject, topics, difficulty, and number of questions.
               </CardDescription>
             </div>
@@ -152,17 +153,17 @@ export default function HomePage() {
         <div className="space-y-4 mt-8">
           <Skeleton className="h-12 w-1/3" />
           {[...Array(3)].map((_, i) => (
-            <Card key={i} className="shadow-lg">
+            <Card key={i} className="shadow-lg bg-card/80 backdrop-blur-md border">
               <CardHeader>
-                <Skeleton className="h-6 w-1/4 mb-2" />
-                <Skeleton className="h-4 w-full" />
-                <Skeleton className="h-4 w-3/4" />
+                <Skeleton className="h-6 w-1/4 mb-2 bg-muted/50" />
+                <Skeleton className="h-4 w-full bg-muted/50" />
+                <Skeleton className="h-4 w-3/4 bg-muted/50" />
               </CardHeader>
               <CardContent className="space-y-3 pt-6">
                 {[...Array(4)].map((_, j) => (
-                  <div key={j} className="flex items-center space-x-3 p-3 border rounded-md">
-                    <Skeleton className="h-5 w-5 rounded-full" />
-                    <Skeleton className="h-4 flex-1" />
+                  <div key={j} className="flex items-center space-x-3 p-3 border rounded-md bg-background/50 backdrop-blur-sm">
+                    <Skeleton className="h-5 w-5 rounded-full bg-muted/50" />
+                    <Skeleton className="h-4 flex-1 bg-muted/50" />
                   </div>
                 ))}
               </CardContent>
@@ -172,7 +173,7 @@ export default function HomePage() {
       )}
 
       {error && (
-        <Alert variant="destructive" className="mt-8">
+        <Alert variant="destructive" className="mt-8 bg-destructive/80 backdrop-blur-md text-destructive-foreground border-destructive">
           <Terminal className="h-4 w-4" />
           <AlertTitle>Error Generating Questions</AlertTitle>
           <AlertDescription>{error}</AlertDescription>
@@ -185,12 +186,13 @@ export default function HomePage() {
             <ListChecks size={32} className="text-accent" />
             <h2 className="text-3xl font-semibold">Your Custom Paper</h2>
           </div>
+          {/* QuestionList contains cards that could also be made glassy if desired */}
           <QuestionList paper={generatedPaper} onPaperSubmit={handlePaperSubmit} />
         </div>
       )}
 
       {!isLoading && !generatedPaper && !error && (
-        <Card className="mt-12 text-center py-12 bg-muted/30 border-dashed">
+        <Card className="mt-12 text-center py-12 bg-muted/30 backdrop-blur-sm border-dashed border-border/50">
           <CardContent>
              <svg
                 className="mx-auto h-16 w-16 text-muted-foreground"
