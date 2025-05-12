@@ -27,15 +27,15 @@ export const GlowingGridBackground = () => {
     <div ref={gridRef} className="fixed inset-0 w-full h-full pointer-events-none z-[-1]">
       <div
         className={cn(
-          "absolute inset-0 transition-opacity duration-300",
-          "bg-[linear-gradient(to_right,var(--grid-color)_1px,transparent_1px),linear-gradient(to_bottom,var(--grid-color)_1px,transparent_1px)]",
-          "bg-[size:2rem_2rem]" // Grid cell size
+          "grid-lines-element", // Class for CSS targeting of grid lines
+          "absolute inset-0", // Removed transition-opacity, handled by specific layers if needed
+          "bg-[size:2rem_2rem]" // Grid cell size, background-image handled by CSS
         )}
       />
       <div
         className={cn(
-          "glow-overlay", // Class for CSS targeting
-          "absolute inset-0 opacity-0 transition-opacity duration-300",
+          "glow-overlay", // Class for CSS targeting the radial glow
+          "absolute inset-0 opacity-0 transition-opacity duration-300", // Controls visibility of radial glow
           "bg-[radial-gradient(circle_at_var(--mouse-x)_var(--mouse-y),var(--glow-color)_0%,transparent_30%)]"
         )}
       />
