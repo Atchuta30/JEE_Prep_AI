@@ -17,8 +17,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'JEE Question Master',
-  description: 'Generate JEE Main-style multiple-choice questions with AI',
+  title: 'JEE Prep AI',
+  description: 'Generate custom JEE Main-style multiple-choice questions and mock papers with AI to supercharge your preparation.',
 };
 
 export default function RootLayout({

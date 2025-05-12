@@ -10,7 +10,7 @@ export default function SignupPage() {
       <Card className="w-full max-w-md shadow-xl">
         <CardHeader className="text-center">
           <CardTitle className="text-2xl">Create an Account</CardTitle>
-          <CardDescription>Join JEE Question Master to save your progress and track history.</CardDescription>
+          <CardDescription>Join JEE Prep AI to save your progress and track history.</CardDescription>
         </CardHeader>
         <CardContent>
           <SignupForm />

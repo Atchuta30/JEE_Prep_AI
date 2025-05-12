@@ -13,7 +13,7 @@ export const Header = () => {
             <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-2-6h4v-2h-4v2zm0-4h4V8h-4v2z"/>
           </svg>
           <h1 className="text-2xl font-bold text-foreground">
-            JEE Question Master
+            JEE Prep AI
           </h1>
         </Link>
         <nav className="flex items-center gap-4">

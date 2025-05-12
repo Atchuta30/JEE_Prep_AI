@@ -2,6 +2,7 @@
 import { LoginForm } from "@/components/auth/login-form";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import Link from "next/link";
+import { Button } from "@/components/ui/button";
 
 export default function LoginPage() {
   return (
@@ -9,7 +10,7 @@ export default function LoginPage() {
       <Card className="w-full max-w-md shadow-xl">
         <CardHeader className="text-center">
           <CardTitle className="text-2xl">Welcome Back!</CardTitle>
-          <CardDescription>Log in to access your JEE Question Master account.</CardDescription>
+          <CardDescription>Log in to access your JEE Prep AI account.</CardDescription>
         </CardHeader>
         <CardContent>
           <LoginForm />
