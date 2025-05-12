@@ -4,7 +4,6 @@ import type { FC } from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
-import { Button } from "@/components/ui/button";
 import MathJaxRenderer from "./mathjax-renderer";
 import type { JEEQuestion } from "@/lib/types";
 import { CheckCircle, XCircle, HelpCircle } from 'lucide-react';
@@ -42,7 +41,9 @@ export const QuestionCard: FC<QuestionCardProps> = ({
           {showCorrectAnswer && selectedAnswer !== undefined && selectedAnswer !== null && (
             <span
               className={`px-3 py-1 rounded-full text-xs font-semibold
-                ${selectedAnswer === question.correctAnswer ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}
+                ${selectedAnswer === question.correctAnswer 
+                  ? 'bg-foreground text-background' 
+                  : 'bg-muted text-foreground border border-foreground'}`}
             >
               {selectedAnswer === question.correctAnswer ? (
                 <CheckCircle className="inline-block mr-1 h-4 w-4" />
@@ -67,14 +68,18 @@ export const QuestionCard: FC<QuestionCardProps> = ({
             const optionId = `q${questionNumber}-option${index}`;
             let optionStyle = "border-border"; // Default border
             let indicatorIcon = null;
+            const indicatorColorClass = "text-foreground";
 
             if (showCorrectAnswer) {
               if (index === question.correctAnswer) {
-                optionStyle = "border-green-500 ring-2 ring-green-500 bg-green-50";
-                indicatorIcon = <CheckCircle className="text-green-600 h-5 w-5" />;
+                optionStyle = "border-foreground ring-2 ring-foreground bg-secondary";
+                indicatorIcon = <CheckCircle className={`h-5 w-5 ${indicatorColorClass}`} />;
               } else if (index === selectedAnswer && selectedAnswer !== question.correctAnswer) {
-                optionStyle = "border-red-500 ring-2 ring-red-500 bg-red-50";
-                indicatorIcon = <XCircle className="text-red-600 h-5 w-5" />;
+                optionStyle = "border-foreground border-dashed ring-1 ring-foreground bg-background opacity-80";
+                indicatorIcon = <XCircle className={`h-5 w-5 ${indicatorColorClass}`} />;
+              } else {
+                // Other non-selected options when answers are shown and not the correct one
+                optionStyle = "opacity-60";
               }
             }
 
@@ -97,9 +102,9 @@ export const QuestionCard: FC<QuestionCardProps> = ({
           })}
         </RadioGroup>
         {showCorrectAnswer && question.explanation && (
-          <div className="mt-4 p-4 border-l-4 border-accent bg-accent/10 rounded-r-md">
-            <h4 className="font-semibold text-accent-foreground flex items-center">
-              <HelpCircle className="h-5 w-5 mr-2 text-accent" />
+          <div className="mt-4 p-4 border-l-4 border-primary bg-secondary/50 rounded-r-md">
+            <h4 className="font-semibold text-foreground flex items-center">
+              <HelpCircle className="h-5 w-5 mr-2 text-primary" />
               Explanation
             </h4>
             <div className="mt-2 text-sm text-foreground/80">
