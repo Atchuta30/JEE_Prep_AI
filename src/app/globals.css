@@ -44,8 +44,8 @@ body {
     --radius: 0.5rem;
 
     /* For glowing grid */
-    --grid-color: hsl(var(--border) / 0.4);
-    --glow-color: hsl(var(--accent) / 0.5); /* Radial glow color - increased opacity */
+    --grid-color: hsl(var(--border) / 0.3); /* Slightly more transparent grid lines */
+    --glow-color: hsl(var(--accent)); /* Radial glow color - fully opaque accent */
     --mouse-x: 50%;
     --mouse-y: 50%;
   }
@@ -85,8 +85,8 @@ body {
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%;
     
-    --grid-color: hsl(var(--border) / 0.5);
-    --glow-color: hsl(var(--accent) / 0.5); /* Radial glow color for dark mode - increased opacity */
+    --grid-color: hsl(var(--border) / 0.35); /* Slightly more transparent grid lines for dark mode */
+    --glow-color: hsl(var(--accent)); /* Radial glow color for dark mode - fully opaque accent */
   }
 }
 
