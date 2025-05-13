@@ -35,7 +35,6 @@ import {
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
-import { motion } from "framer-motion";
 
 interface TopicWithEmoji {
   name: string;
@@ -381,48 +380,31 @@ export function QuestionForm({ onSubmit, isLoading = false, defaultValues }: Que
           )}
         />
         
-        <Button type="submit" disabled={isLoading} className="w-full md:w-auto bg-accent hover:bg-accent/90 text-accent-foreground">
+        <Button 
+          type="submit" 
+          disabled={isLoading} 
+          className={cn(
+            "w-full md:w-auto font-roboto", // Ensure Roboto font is applied
+            "px-6 py-3 rounded-lg shadow-md transition-all duration-150 ease-out",
+            "bg-slate-200 text-slate-800 border-b-4 border-slate-400", // Light theme normal
+            "dark:bg-slate-700 dark:text-slate-100 dark:border-slate-900", // Dark theme normal
+            "hover:bg-slate-300 dark:hover:bg-slate-600", // Hover
+            "active:bg-slate-400 dark:active:bg-slate-500 active:border-b-0 active:translate-y-1" // Active/pressed
+          )}
+        >
           {isLoading ? (
             <div className="flex items-center">
-              <svg className="animate-spin -ml-1 mr-3 h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <svg className="animate-spin -mr-1 ml-3 h-5 w-5 text-inherit" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                 <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                 <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
               </svg>
               Generating...
             </div>
           ) : (
-            <motion.div 
-              className="flex items-center justify-center"
-              initial="rest"
-              whileHover="hovered"
-              animate="rest" 
-            >
-              <motion.div
-                variants={{
-                  rest: { y: 0, rotate: 0, scale: 1 },
-                  hovered: { 
-                    y: [0, -2, 0], 
-                    rotate: [0, -12, 12, -6, 6, 0], 
-                    scale: 1.2,
-                    transition: { duration: 0.6, ease: "circOut" }
-                  }
-                }}
-              >
-                <Wand2 className="mr-2 h-4 w-4" />
-              </motion.div>
-              <motion.span
-                variants={{
-                  rest: { letterSpacing: "normal", scale: 1 },
-                  hovered: { 
-                    letterSpacing: "0.4px", 
-                    scale: 1.05,
-                    transition: { type: "spring", stiffness: 250, damping: 12 }
-                  }
-                }}
-              >
-                Generate Paper
-              </motion.span>
-            </motion.div>
+            <div className="flex items-center justify-center">
+              <Wand2 className="mr-2 h-5 w-5" />
+              <span>Generate Paper</span>
+            </div>
           )}
         </Button>
       </form>

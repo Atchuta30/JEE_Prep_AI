@@ -184,7 +184,7 @@ body:hover .shimmer-glow-effect {
 }
 
 html {
-    font-family: 'Open Sans', sans-serif; /* Example of a clean sans-serif font */
+    font-family: 'Open Sans', 'Roboto', sans-serif; /* Example of a clean sans-serif font */
 }
 
 /* Apply unique fonts and styles for Swiss typography feel if desired */
@@ -206,4 +206,17 @@ h1, h2, h3, .swiss-title {
     height: 1.2em;
     vertical-align: middle;
     /* Add more specific styling if needed */
+}
+
+/* Roboto font import if needed globally and not handled by next/font */
+/* @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap'); */
+
+.font-roboto {
+  font-family: 'Roboto', sans-serif;
+}
+
+.text-gradient {
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
 }
