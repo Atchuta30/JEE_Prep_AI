@@ -16,8 +16,8 @@ import { useAuth } from "@/hooks/use-auth";
 import { LogIn, LogOut, UserCircle, History, Settings, PlusCircle } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState, useRef, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useState } from "react";
+import { motion } from "framer-motion";
 
 
 export function UserNav() {
@@ -51,18 +51,18 @@ export function UserNav() {
                          transition-all duration-[700ms] ease-out
                          group-hover:left-0"
               aria-hidden="true"
-              style={{ zIndex: 0 }} 
+              style={{ zIndex: 0 }}
             />
             {/* Icon and Text wrapper */}
             <span className="relative z-10 flex items-center">
               <LogIn
                 className="mr-2 h-4 w-4
-                           text-foreground 
+                           text-foreground
                            group-hover:text-white dark:group-hover:text-black
                            transition-colors duration-300"
               />
               <span
-                className="text-foreground 
+                className="text-foreground
                            group-hover:text-white dark:group-hover:text-black
                            transition-colors duration-300"
               >
@@ -74,11 +74,9 @@ export function UserNav() {
         <Button
           asChild
           className="relative overflow-hidden group
-                     bg-background text-foreground
-                     dark:bg-foreground dark:text-background
-                     border border-foreground dark:border-background
-                     hover:bg-background dark:hover:bg-foreground 
-                     hover:text-foreground dark:hover:text-background 
+                     bg-foreground text-background border border-background
+                     dark:bg-foreground dark:text-background dark:border-background
+                     hover:bg-transparent dark:hover:bg-transparent
                      transition-colors duration-300 ease-in-out"
           onMouseEnter={() => setIsHoveringSignUp(true)}
           onMouseLeave={() => setIsHoveringSignUp(false)}
@@ -87,26 +85,26 @@ export function UserNav() {
             {/* Water fill effect element */}
             <span
               className="absolute bottom-0 left-0 w-full h-0
-                         bg-black dark:bg-white 
+                         bg-background dark:bg-background
                          transition-all duration-[700ms] ease-out
                          group-hover:h-full"
               aria-hidden="true"
             />
             {/* Icon and Text */}
-            <motion.span 
+            <motion.span
               className="relative z-10 flex items-center"
               animate={{ fontWeight: isHoveringSignUp ? 900 : 400 }}
               transition={{ type: "spring", stiffness: 300, damping: 20 }}
             >
               <PlusCircle
-                className="mr-2 h-4 w-4 
-                           text-foreground group-hover:text-white
-                           dark:text-background dark:group-hover:text-black
+                className="mr-2 h-4 w-4
+                           text-background group-hover:text-foreground
+                           dark:text-background dark:group-hover:text-foreground
                            transition-colors duration-300"
               />
               <span
-                className="text-foreground group-hover:text-white
-                           dark:text-background dark:group-hover:text-black
+                className="text-background group-hover:text-foreground
+                           dark:text-background dark:group-hover:text-foreground
                            transition-colors duration-300"
               >
                 Sign Up
@@ -169,4 +167,3 @@ export function UserNav() {
     </DropdownMenu>
   );
 }
-
