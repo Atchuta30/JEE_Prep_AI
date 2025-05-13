@@ -24,8 +24,9 @@ export type GenerateJEEQuestionsInput = z.infer<typeof GenerateJEEQuestionsInput
 
 const JEEQuestionSchema = z.object({
   question: z.string().describe('The question text, including LaTeX formatting for equations.'),
-  options: z.array(z.string()).describe('An array of multiple-choice options, with LaTeX formatting.'),
+  options: z.array(z.string()).min(4).max(4).describe('An array of exactly four multiple-choice options, with LaTeX formatting.'),
   correctAnswer: z.number().int().min(0).max(3).describe('The index (0-3) of the correct answer in the options array.'),
+  explanation: z.string().optional().describe('An optional, brief explanation for the correct answer, also using LaTeX if needed. This field may be omitted.'),
 });
 
 const GenerateJEEQuestionsOutputSchema = z.object({
@@ -50,11 +51,33 @@ const generateQuestionsPrompt = ai.definePrompt({
 
   The output should be a JSON object with a 'questions' array. Each element in the array should have the structure:
   {
-  "question": "The question text with LaTeX formatting.",
-  "options": ["Option A with LaTeX", "Option B with LaTeX", "Option C with LaTeX", "Option D with LaTeX"],
-  "correctAnswer": 0 // Index of the correct answer (0-3)
+    "question": "The question text with LaTeX formatting.",
+    "options": ["Option A with LaTeX", "Option B with LaTeX", "Option C with LaTeX", "Option D with LaTeX"],
+    "correctAnswer": 0, // Index of the correct answer (0-3)
+    "explanation": "An optional, brief explanation for the correct answer, also using LaTeX if needed. This field may be omitted."
   }
+  Ensure the options array always contains exactly 4 items.
   `,
+  config: {
+    safetySettings: [
+      {
+        category: 'HARM_CATEGORY_DANGEROUS_CONTENT',
+        threshold: 'BLOCK_ONLY_HIGH',
+      },
+      {
+        category: 'HARM_CATEGORY_HATE_SPEECH',
+        threshold: 'BLOCK_MEDIUM_AND_ABOVE',
+      },
+      {
+        category: 'HARM_CATEGORY_HARASSMENT',
+        threshold: 'BLOCK_MEDIUM_AND_ABOVE',
+      },
+      {
+        category: 'HARM_CATEGORY_SEXUALLY_EXPLICIT',
+        threshold: 'BLOCK_MEDIUM_AND_ABOVE',
+      },
+    ],
+  },
 });
 
 const generateJEEQuestionsFlow = ai.defineFlow(
@@ -65,6 +88,13 @@ const generateJEEQuestionsFlow = ai.defineFlow(
   },
   async input => {
     const {output} = await generateQuestionsPrompt(input);
-    return output!;
+    if (!output || !output.questions) {
+      // Handle cases where the model might not return the expected structure or an error occurs
+      // For example, if safety filters block the response, output might be null or incomplete
+      console.error('AI response was null, undefined, or did not contain questions:', output);
+      throw new Error('Failed to generate questions. The AI model returned an unexpected response.');
+    }
+    return output;
   }
 );
+
