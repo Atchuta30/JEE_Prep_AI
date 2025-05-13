@@ -224,11 +224,7 @@ h1, h2, h3, .swiss-title {
 
 
 /* New button styles from user */
-.flex { /* This is a generic class, ensure it doesn't conflict or scope it if needed */
-  display: flex;
-  align-items: center;
-  gap: 5px;
-}
+/* Removed generic .flex rule */
 
 .outer-cont {
   padding: 12px 20px;
@@ -266,7 +262,7 @@ h1, h2, h3, .swiss-title {
   background: conic-gradient(
     #00000000 80deg, /* Transparent start */
     #40baf7,
-    #f34ad7,
+    #f34d7,
     #5bfcc4,
     #00000000 280deg /* Transparent end */
   );
@@ -289,4 +285,22 @@ h1, h2, h3, .swiss-title {
   /* margin-top: 3px; Removed this as transform on ::before handles push */
   transform: translateY(2px); /* Push button down slightly */
 }
+
+.outer-cont .text_button { /* Scoped to .outer-cont */
+  position: relative;
+  z-index: 10;
+  /* --active is assumed to be controlled by JS or parent state for this gradient effect if needed */
+  /* background-image: linear-gradient(
+    90deg,
+    hsla(0 0% 100% / 1) 0%,
+    hsla(0 0% 100% / var(--active, 0)) 120% 
+  );
+  background-clip: text; */
+  /* color: transparent; */ /* Text color is handled by .outer-cont, this would make it transparent */
+  font-size: 1rem; /* Ensure font size is consistent */
+  font-family: 'Roboto', sans-serif; /* Ensure Roboto font */
+  color: #fff; /* Explicitly white text for this button style */
+}
+
 /* End of new button styles */
+
