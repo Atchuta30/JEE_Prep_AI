@@ -5,8 +5,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
-// import { Button } from "@/components/ui/button"; // Replaced with InteractiveGenerateButton
-import { InteractiveGenerateButton } from "./interactive-generate-button";
+import { CreativeStarButton } from "./creative-star-button"; // Changed import
 import {
   Form,
   FormControl,
@@ -390,11 +389,13 @@ export function QuestionForm({ onSubmit, isLoading = false, defaultValues }: Que
           )}
         />
         
-        <InteractiveGenerateButton
+        <CreativeStarButton
           onClick={onGenerateClick}
           isLoading={isLoading}
           className="w-full md:w-auto" // Add any specific layout classes here
-        />
+        >
+          Generate Paper
+        </CreativeStarButton>
       </div>
     </Form>
   );
