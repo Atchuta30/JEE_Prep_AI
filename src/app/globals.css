@@ -48,7 +48,7 @@ body {
 
     /* For glowing grid */
     --grid-dot-base-color: hsl(0 0% 0% / 0.12); /* Darker black dots */
-    --grid-dot-glow-color: hsl(var(--user-palette-teal) / 0.85); 
+    --grid-dot-glow-color: hsl(var(--user-palette-teal) / 0.85);
 
     --mouse-x: 50%;
     --mouse-y: 50%;
@@ -106,10 +106,10 @@ body {
     --chart-3: 0 0% 60%;
     --chart-4: 0 0% 50%;
     --chart-5: 0 0% 40%;
-    
+
     /* For glowing grid in dark mode */
     --grid-dot-base-color: hsl(0 0% 100% / 0.12); /* Darker white dots */
-    --grid-dot-glow-color: hsl(var(--user-palette-teal) / 0.85); 
+    --grid-dot-glow-color: hsl(var(--user-palette-teal) / 0.85);
 
 
     /* Sidebar variables for dark mode */
@@ -154,7 +154,7 @@ mjx-container[jax="CHTML"][display="true"] {
   width: 100%;
   height: 100%;
   background-image: radial-gradient(var(--grid-dot-base-color) 1px, transparent 0);
-  background-size: 2rem 2rem; 
+  background-size: 2rem 2rem;
   background-position: center center;
 }
 
@@ -164,7 +164,7 @@ mjx-container[jax="CHTML"][display="true"] {
   inset: 0;
   width: 100%;
   height: 100%;
-  
+
   /* Pattern of glowing dots */
   background-image: radial-gradient(var(--grid-dot-glow-color) 1px, transparent 0);
   background-size: 2rem 2rem; /* Must match shimmer-grid-background */
@@ -181,7 +181,7 @@ mjx-container[jax="CHTML"][display="true"] {
     black 60%,
     transparent 100%
   );
-  
+
   opacity: 0; /* Hidden by default */
   transition: opacity 0.2s ease-out;
   pointer-events: none;
@@ -199,7 +199,7 @@ html {
 /* Apply unique fonts and styles for Swiss typography feel if desired */
 /* Example:
 h1, h2, h3, .swiss-title {
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; 
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
     font-weight: bold;
 }
 .swiss-text-body {
@@ -282,11 +282,11 @@ h1, h2, h3, .swiss-title {
   z-index: -1; /* Behind the main content */
   box-shadow: none;
   background: conic-gradient(
-    hsla(0, 0%, 0%, 0) 80deg, 
+    hsla(0, 0%, 0%, 0) 80deg,
     hsl(var(--user-palette-blue2)), /* User palette */
     hsl(var(--user-palette-magenta)), /* User palette */
     hsl(var(--user-palette-teal)), /* User palette */
-    hsla(0, 0%, 0%, 0) 280deg 
+    hsla(0, 0%, 0%, 0) 280deg
   );
   transition: all 0.3s ease;
 }
@@ -316,18 +316,17 @@ h1, h2, h3, .swiss-title {
   font-family: 'Roboto', sans-serif; /* Ensure Roboto font */
   color: #fff; /* Explicitly white text for this button style */
 }
-
 /* End of InteractiveGenerateButton styles */
 
 
 /* === CreativeStarButton START === */
 .jee-star-button {
   position: relative;
-  padding: 10px 25px;
-  font-size: 15px;
+  padding: 10px 25px; /* Adjusted padding for smaller size */
+  font-size: 15px; /* Adjusted font size */
   font-weight: 500;
   border-radius: 8px;
-  box-shadow: 0 0 0 #fec1958c; /* Default shadow */
+  box-shadow: 0 0 0 #fec1958c; /* Default shadow, will be overridden */
   transition: all 0.3s ease-in-out;
   cursor: pointer;
   display: inline-flex;
@@ -341,6 +340,9 @@ h1, h2, h3, .swiss-title {
   color: white;
   border: 3px solid black;
 }
+.jee-star-button .jee-star-button-fil0 { /* Default star fill for light theme non-hover */
+  fill: #fffdef;
+}
 
 /* Dark Theme Defaults for CreativeStarButton */
 .dark .jee-star-button {
@@ -348,19 +350,32 @@ h1, h2, h3, .swiss-title {
   color: black;
   border: 3px solid white;
 }
-
-/* Hover State - Common for both themes, applies original hover appearance */
-/* Placed after themed defaults to ensure cascade overrides them */
-.jee-star-button:hover:not(:disabled):not(.jee-star-button-loading) {
-  background: transparent;
-  color: #fec195; 
-  border-color: #fec195; 
-  box-shadow: 0 0 25px #fec1958c; 
+.dark .jee-star-button .jee-star-button-fil0 { /* Default star fill for dark theme non-hover */
+  fill: #fffdef; /* Off-white stars are fine on a white button */
 }
 
-/* Star SVG Fill - Common for both themes */
-.jee-star-button .jee-star-button-fil0 {
-  fill: #fffdef; /* Original star color */
+/* Light Theme Hover */
+.jee-star-button:hover:not(:disabled):not(.jee-star-button-loading) {
+  background: white;
+  color: black;
+  border-color: black;
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.3);
+}
+/* Star fill for Light Theme Hover */
+.jee-star-button:hover:not(:disabled):not(.jee-star-button-loading) .jee-star-button-fil0 {
+  fill: black; /* Stars turn black on light theme hover */
+}
+
+/* Dark Theme Hover */
+.dark .jee-star-button:hover:not(:disabled):not(.jee-star-button-loading) {
+  background: hsl(0 0% 50%); /* Metallic grey-ish background */
+  color: white; /* White text */
+  border-color: hsl(0 0% 70%); /* Lighter grey border */
+  box-shadow: 0 0 25px hsla(0, 0%, 100%, 0.5); /* White glow */
+}
+/* Star fill for Dark Theme Hover */
+.dark .jee-star-button:hover:not(:disabled):not(.jee-star-button-loading) .jee-star-button-fil0 {
+  fill: white; /* Stars turn white on dark theme hover */
 }
 
 /* Star Positioning and Animation Styles */
@@ -383,7 +398,7 @@ h1, h2, h3, .swiss-title {
   z-index: -5;
 }
 
-/* Hover states for stars */
+/* Hover states for stars (positioning) - common for both themes */
 .jee-star-button:hover:not(:disabled):not(.jee-star-button-loading) .jee-star-button-star-1 { top: -80%; left: -30%; filter: drop-shadow(0 0 10px #fffdef); z-index: 2; }
 .jee-star-button:hover:not(:disabled):not(.jee-star-button-loading) .jee-star-button-star-2 { top: -25%; left: 10%;  filter: drop-shadow(0 0 10px #fffdef); z-index: 2; }
 .jee-star-button:hover:not(:disabled):not(.jee-star-button-loading) .jee-star-button-star-3 { top: 55%;  left: 25%;  filter: drop-shadow(0 0 10px #fffdef); z-index: 2; }
@@ -393,22 +408,30 @@ h1, h2, h3, .swiss-title {
 
 
 /* Loading State Styling */
-.jee-star-button-loading, 
-.jee-star-button-loading:hover { 
-  background: #333333 !important; 
-  color: #aaaaaa !important;    
+.jee-star-button-loading,
+.jee-star-button-loading:hover {
+  background: #333333 !important;
+  color: #aaaaaa !important;
   border-color: #333333 !important;
-  box-shadow: 0 0 0 #fec1958c !important; 
+  box-shadow: 0 0 0 #fec1958c !important;
   cursor: wait;
 }
+.jee-star-button-loading .jee-star-button-fil0,
+.jee-star-button-loading:hover .jee-star-button-fil0 {
+    fill: #aaaaaa !important;
+}
 
-.dark .jee-star-button-loading, 
-.dark .jee-star-button-loading:hover { 
-  background: #cccccc !important; 
-  color: #555555 !important;    
+.dark .jee-star-button-loading,
+.dark .jee-star-button-loading:hover {
+  background: #cccccc !important;
+  color: #555555 !important;
   border-color: #cccccc !important;
-  box-shadow: 0 0 0 #fec1958c !important; 
+  box-shadow: 0 0 0 #fec1958c !important;
   cursor: wait;
+}
+.dark .jee-star-button-loading .jee-star-button-fil0,
+.dark .jee-star-button-loading:hover .jee-star-button-fil0 {
+    fill: #555555 !important;
 }
 
 /* General Disabled State */
