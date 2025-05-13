@@ -1,10 +1,12 @@
+
 // src/components/jee/question-form.tsx
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
-import { Button } from "@/components/ui/button";
+// import { Button } from "@/components/ui/button"; // Replaced with InteractiveGenerateButton
+import { InteractiveGenerateButton } from "./interactive-generate-button";
 import {
   Form,
   FormControl,
@@ -23,7 +25,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import type { JEEPaperDifficulty, JEEPaperSubject } from "@/lib/types";
-import { Wand2, ChevronsUpDown, XCircle, Atom, FlaskConical, Sigma } from "lucide-react";
+import { ChevronsUpDown, XCircle, Atom, FlaskConical, Sigma } from "lucide-react";
 import { useEffect, useState } from "react";
 import {
   DropdownMenu,
@@ -229,10 +231,18 @@ export function QuestionForm({ onSubmit, isLoading = false, defaultValues }: Que
     const finalValues = { ...values, topics: selectedTopicNames.join(', ') };
     onSubmit(finalValues);
   };
+  
+  // Explicitly type the event for onClick
+  const onGenerateClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault(); // Prevent default form submission if type="submit"
+    form.handleSubmit(handleFormSubmit)(); // Manually trigger react-hook-form's submit
+  };
+
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(handleFormSubmit)} className="space-y-8">
+      {/* Changed form onSubmit to a div, button now handles submission */}
+      <div className="space-y-8">
         <div className="grid md:grid-cols-2 gap-6">
           <FormField
             control={form.control}
@@ -293,27 +303,28 @@ export function QuestionForm({ onSubmit, isLoading = false, defaultValues }: Que
         <FormField
           control={form.control}
           name="topics"
-          render={({ fieldState }) => ( // field is not directly used here for value, internal state is.
+          render={({ fieldState }) => ( 
             <FormItem className="flex flex-col">
               <FormLabel>Topics</FormLabel>
               <FormControl>
                 <DropdownMenu open={isTopicDropdownOpen} onOpenChange={setIsTopicDropdownOpen}>
                   <DropdownMenuTrigger asChild>
-                    <Button
-                      variant="outline"
+                    <button // Changed from Button to button to avoid conflicts if Button is a styled component
+                      type="button" // Important: set type to button to prevent form submission
                       role="combobox"
                       aria-expanded={isTopicDropdownOpen}
                       className={cn(
-                        "w-full justify-between",
+                        "w-full justify-between border border-input bg-background px-3 py-2 h-10 rounded-md text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 flex items-center",
                         !selectedSubject && "text-muted-foreground"
                       )}
                       disabled={!selectedSubject || isLoading}
+                      onClick={() => setIsTopicDropdownOpen(!isTopicDropdownOpen)} // Manually toggle dropdown
                     >
                       {selectedTopicNames.length > 0
                         ? `${selectedTopicNames.length} topic(s) selected`
                         : selectedSubject ? "Select topics..." : "Select a subject first"}
-                      <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                    </Button>
+                      <ChevronsUpDown className="ml-auto h-4 w-4 shrink-0 opacity-50" />
+                    </button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent className="w-[--radix-popover-trigger-width] p-0">
                     <ScrollArea className="h-72">
@@ -323,7 +334,6 @@ export function QuestionForm({ onSubmit, isLoading = false, defaultValues }: Que
                             key={topic.name}
                             checked={selectedTopicNames.includes(topic.name)}
                             onCheckedChange={() => handleTopicToggle(topic.name)}
-                            // onSelect={(e) => e.preventDefault()} // Keep dropdown open if needed
                           >
                             <span className="mr-2">{topic.emoji}</span>
                             {topic.name}
@@ -361,7 +371,7 @@ export function QuestionForm({ onSubmit, isLoading = false, defaultValues }: Que
               <FormDescription>
                 Select relevant topics for the paper.
               </FormDescription>
-              <FormMessage /> {/* Shows validation message for topics field */}
+              <FormMessage />
             </FormItem>
           )}
         />
@@ -380,34 +390,12 @@ export function QuestionForm({ onSubmit, isLoading = false, defaultValues }: Que
           )}
         />
         
-        <Button 
-          type="submit" 
-          disabled={isLoading} 
-          className={cn(
-            "w-full md:w-auto font-roboto", // Ensure Roboto font is applied
-            "px-6 py-3 rounded-lg shadow-md transition-all duration-150 ease-out",
-            "bg-slate-200 text-slate-800 border-b-4 border-slate-400", // Light theme normal
-            "dark:bg-slate-700 dark:text-slate-100 dark:border-slate-900", // Dark theme normal
-            "hover:bg-slate-300 dark:hover:bg-slate-600", // Hover
-            "active:bg-slate-400 dark:active:bg-slate-500 active:border-b-0 active:translate-y-1" // Active/pressed
-          )}
-        >
-          {isLoading ? (
-            <div className="flex items-center">
-              <svg className="animate-spin -mr-1 ml-3 h-5 w-5 text-inherit" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-              </svg>
-              Generating...
-            </div>
-          ) : (
-            <div className="flex items-center justify-center">
-              <Wand2 className="mr-2 h-5 w-5" />
-              <span>Generate Paper</span>
-            </div>
-          )}
-        </Button>
-      </form>
+        <InteractiveGenerateButton
+          onClick={onGenerateClick}
+          isLoading={isLoading}
+          className="w-full md:w-auto" // Add any specific layout classes here
+        />
+      </div>
     </Form>
   );
 }
