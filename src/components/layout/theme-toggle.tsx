@@ -36,7 +36,7 @@ export function ThemeToggle() {
             aria-hidden="true"
             className="
               absolute inset-0 w-full h-full rounded-full
-              bg-black dark:bg-transparent /* Fill with black in light theme, transparent (no fill) in dark */
+              bg-black dark:bg-white /* Fill with black in light theme, white in dark */
               origin-center transform scale-0
               group-hover:scale-[1.5] /* Scale to cover button */
               transition-transform duration-300 ease-out
