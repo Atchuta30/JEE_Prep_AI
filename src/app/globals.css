@@ -320,34 +320,58 @@ h1, h2, h3, .swiss-title {
 /* End of InteractiveGenerateButton styles */
 
 
-/* CreativeStarButton styles */
+/* === CreativeStarButton START === */
 .jee-star-button {
   position: relative;
-  padding: 10px 25px; /* Reduced padding */
-  background: #fec195;
-  font-size: 15px; /* Reduced font size */
+  padding: 10px 25px;
+  font-size: 15px;
   font-weight: 500;
-  color: #181818;
-  border: 3px solid #fec195;
   border-radius: 8px;
-  box-shadow: 0 0 0 #fec1958c;
+  box-shadow: 0 0 0 #fec1958c; /* Default shadow */
   transition: all 0.3s ease-in-out;
   cursor: pointer;
-  display: inline-flex; /* For aligning text and spinner */
-  align-items: center; /* For aligning text and spinner */
-  justify-content: center; /* For aligning text and spinner */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.jee-star-button-loading {
-  background: #eda068; /* Slightly darker for loading state */
-  color: #181818c0; /* Dim text slightly */
+/* Light Theme Defaults for CreativeStarButton */
+.jee-star-button {
+  background: black;
+  color: white;
+  border: 3px solid black;
 }
 
-.jee-star-button:disabled, .jee-star-button-loading:disabled {
-  opacity: 0.7;
-  cursor: not-allowed;
+/* Dark Theme Defaults for CreativeStarButton */
+.dark .jee-star-button {
+  background: white;
+  color: black;
+  border: 3px solid white;
 }
 
+/* Hover State - Common for both themes, applies original hover appearance */
+/* Placed after themed defaults to ensure cascade overrides them */
+.jee-star-button:hover:not(:disabled):not(.jee-star-button-loading) {
+  background: transparent;
+  color: #fec195; 
+  border-color: #fec195; 
+  box-shadow: 0 0 25px #fec1958c; 
+}
+
+/* Star SVG Fill - Common for both themes */
+.jee-star-button .jee-star-button-fil0 {
+  fill: #fffdef; /* Original star color */
+}
+
+/* Star Positioning and Animation Styles */
+.jee-star-button .jee-star-button-star-1 { top: 20%; left: 20%; width: 25px; height: auto; transition: all 1s cubic-bezier(0.05, 0.83, 0.43, 0.96); }
+.jee-star-button .jee-star-button-star-2 { top: 45%; left: 45%; width: 15px; height: auto; transition: all 1s cubic-bezier(0, 0.4, 0, 1.01); }
+.jee-star-button .jee-star-button-star-3 { top: 40%; left: 40%; width: 5px;  height: auto; transition: all 1s cubic-bezier(0, 0.4, 0, 1.01); }
+.jee-star-button .jee-star-button-star-4 { top: 20%; left: 40%; width: 8px;  height: auto; transition: all 0.8s cubic-bezier(0, 0.4, 0, 1.01); }
+.jee-star-button .jee-star-button-star-5 { top: 25%; left: 45%; width: 15px; height: auto; transition: all 0.6s cubic-bezier(0, 0.4, 0, 1.01); }
+.jee-star-button .jee-star-button-star-6 { top: 5%;  left: 50%; width: 5px;  height: auto; transition: all 0.8s ease; }
+
+/* Common star properties for all stars */
 .jee-star-button .jee-star-button-star-1,
 .jee-star-button .jee-star-button-star-2,
 .jee-star-button .jee-star-button-star-3,
@@ -359,27 +383,37 @@ h1, h2, h3, .swiss-title {
   z-index: -5;
 }
 
-.jee-star-button .jee-star-button-star-1 { top: 20%; left: 20%; width: 25px; height: auto; transition: all 1s cubic-bezier(0.05, 0.83, 0.43, 0.96); }
-.jee-star-button .jee-star-button-star-2 { top: 45%; left: 45%; width: 15px; height: auto; transition: all 1s cubic-bezier(0, 0.4, 0, 1.01); }
-.jee-star-button .jee-star-button-star-3 { top: 40%; left: 40%; width: 5px;  height: auto; transition: all 1s cubic-bezier(0, 0.4, 0, 1.01); }
-.jee-star-button .jee-star-button-star-4 { top: 20%; left: 40%; width: 8px;  height: auto; transition: all 0.8s cubic-bezier(0, 0.4, 0, 1.01); }
-.jee-star-button .jee-star-button-star-5 { top: 25%; left: 45%; width: 15px; height: auto; transition: all 0.6s cubic-bezier(0, 0.4, 0, 1.01); }
-.jee-star-button .jee-star-button-star-6 { top: 5%;  left: 50%; width: 5px;  height: auto; transition: all 0.8s ease; }
+/* Hover states for stars */
+.jee-star-button:hover:not(:disabled):not(.jee-star-button-loading) .jee-star-button-star-1 { top: -80%; left: -30%; filter: drop-shadow(0 0 10px #fffdef); z-index: 2; }
+.jee-star-button:hover:not(:disabled):not(.jee-star-button-loading) .jee-star-button-star-2 { top: -25%; left: 10%;  filter: drop-shadow(0 0 10px #fffdef); z-index: 2; }
+.jee-star-button:hover:not(:disabled):not(.jee-star-button-loading) .jee-star-button-star-3 { top: 55%;  left: 25%;  filter: drop-shadow(0 0 10px #fffdef); z-index: 2; }
+.jee-star-button:hover:not(:disabled):not(.jee-star-button-loading) .jee-star-button-star-4 { top: 30%;  left: 80%;  filter: drop-shadow(0 0 10px #fffdef); z-index: 2; }
+.jee-star-button:hover:not(:disabled):not(.jee-star-button-loading) .jee-star-button-star-5 { top: 25%;  left: 115%; filter: drop-shadow(0 0 10px #fffdef); z-index: 2; }
+.jee-star-button:hover:not(:disabled):not(.jee-star-button-loading) .jee-star-button-star-6 { top: 5%;   left: 60%;  filter: drop-shadow(0 0 10px #fffdef); z-index: 2; }
 
-.jee-star-button:hover {
-  background: transparent;
-  color: #fec195;
-  box-shadow: 0 0 25px #fec1958c;
+
+/* Loading State Styling */
+.jee-star-button-loading, 
+.jee-star-button-loading:hover { 
+  background: #333333 !important; 
+  color: #aaaaaa !important;    
+  border-color: #333333 !important;
+  box-shadow: 0 0 0 #fec1958c !important; 
+  cursor: wait;
 }
 
-.jee-star-button:hover .jee-star-button-star-1 { top: -80%; left: -30%; filter: drop-shadow(0 0 10px #fffdef); z-index: 2; }
-.jee-star-button:hover .jee-star-button-star-2 { top: -25%; left: 10%;  filter: drop-shadow(0 0 10px #fffdef); z-index: 2; }
-.jee-star-button:hover .jee-star-button-star-3 { top: 55%;  left: 25%;  filter: drop-shadow(0 0 10px #fffdef); z-index: 2; }
-.jee-star-button:hover .jee-star-button-star-4 { top: 30%;  left: 80%;  filter: drop-shadow(0 0 10px #fffdef); z-index: 2; }
-.jee-star-button:hover .jee-star-button-star-5 { top: 25%;  left: 115%; filter: drop-shadow(0 0 10px #fffdef); z-index: 2; }
-.jee-star-button:hover .jee-star-button-star-6 { top: 5%;   left: 60%;  filter: drop-shadow(0 0 10px #fffdef); z-index: 2; }
-
-.jee-star-button .jee-star-button-fil0 {
-  fill: #fffdef;
+.dark .jee-star-button-loading, 
+.dark .jee-star-button-loading:hover { 
+  background: #cccccc !important; 
+  color: #555555 !important;    
+  border-color: #cccccc !important;
+  box-shadow: 0 0 0 #fec1958c !important; 
+  cursor: wait;
 }
-/* End CreativeStarButton styles */
+
+/* General Disabled State */
+.jee-star-button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+/* === CreativeStarButton END === */
