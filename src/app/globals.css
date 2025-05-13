@@ -48,7 +48,7 @@ body {
 
     /* For glowing grid */
     --grid-dot-base-color: hsl(0 0% 0% / 0.12); /* Darker black dots */
-    --grid-dot-glow-color: hsl(var(--user-palette-teal) / 0.85); /* Updated to use user-palette-teal */
+    --grid-dot-glow-color: hsl(var(--user-palette-teal) / 0.85); 
 
     --mouse-x: 50%;
     --mouse-y: 50%;
@@ -109,7 +109,7 @@ body {
     
     /* For glowing grid in dark mode */
     --grid-dot-base-color: hsl(0 0% 100% / 0.12); /* Darker white dots */
-    --grid-dot-glow-color: hsl(var(--user-palette-teal) / 0.85); /* Updated to use user-palette-teal, ensure good contrast in dark mode */
+    --grid-dot-glow-color: hsl(var(--user-palette-teal) / 0.85); 
 
 
     /* Sidebar variables for dark mode */
@@ -230,8 +230,7 @@ h1, h2, h3, .swiss-title {
   color: transparent;
 }
 
-
-/* InteractiveGenerateButton styles (old button, may be removed or adapted) */
+/* InteractiveGenerateButton styles */
 .outer-cont {
   padding: 12px 20px;
   border: none;
@@ -257,11 +256,9 @@ h1, h2, h3, .swiss-title {
   transition: transform 0.3s ease-in-out;
 }
 
-/*
 .outer-cont:hover svg {
   animation: sparkle-spin 1s linear infinite;
 }
-
 
 @keyframes sparkle-spin {
   0% {
@@ -274,8 +271,6 @@ h1, h2, h3, .swiss-title {
     transform: rotate(360deg) scale(1);
   }
 }
-*/
-
 
 .outer-cont::before {
   content: "";
@@ -324,12 +319,13 @@ h1, h2, h3, .swiss-title {
 
 /* End of InteractiveGenerateButton styles */
 
+
 /* CreativeStarButton styles */
 .jee-star-button {
   position: relative;
-  padding: 12px 35px;
+  padding: 10px 25px; /* Reduced padding */
   background: #fec195;
-  font-size: 17px;
+  font-size: 15px; /* Reduced font size */
   font-weight: 500;
   color: #181818;
   border: 3px solid #fec195;
@@ -386,3 +382,4 @@ h1, h2, h3, .swiss-title {
 .jee-star-button .jee-star-button-fil0 {
   fill: #fffdef;
 }
+/* End CreativeStarButton styles */
