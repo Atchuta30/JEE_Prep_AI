@@ -35,6 +35,7 @@ import {
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
+import { motion } from "framer-motion";
 
 interface TopicWithEmoji {
   name: string;
@@ -293,7 +294,7 @@ export function QuestionForm({ onSubmit, isLoading = false, defaultValues }: Que
         <FormField
           control={form.control}
           name="topics"
-          render={({ fieldState }) => (
+          render={({ fieldState }) => ( // field is not directly used here for value, internal state is.
             <FormItem className="flex flex-col">
               <FormLabel>Topics</FormLabel>
               <FormControl>
@@ -323,7 +324,7 @@ export function QuestionForm({ onSubmit, isLoading = false, defaultValues }: Que
                             key={topic.name}
                             checked={selectedTopicNames.includes(topic.name)}
                             onCheckedChange={() => handleTopicToggle(topic.name)}
-                            // onSelect={(e) => e.preventDefault()} // Keep dropdown open
+                            // onSelect={(e) => e.preventDefault()} // Keep dropdown open if needed
                           >
                             <span className="mr-2">{topic.emoji}</span>
                             {topic.name}
@@ -361,7 +362,7 @@ export function QuestionForm({ onSubmit, isLoading = false, defaultValues }: Que
               <FormDescription>
                 Select relevant topics for the paper.
               </FormDescription>
-              <FormMessage />
+              <FormMessage /> {/* Shows validation message for topics field */}
             </FormItem>
           )}
         />
@@ -390,9 +391,38 @@ export function QuestionForm({ onSubmit, isLoading = false, defaultValues }: Que
               Generating...
             </div>
           ) : (
-            <>
-              <Wand2 className="mr-2 h-4 w-4" /> Generate Paper
-            </>
+            <motion.div 
+              className="flex items-center justify-center"
+              initial="rest"
+              whileHover="hovered"
+              animate="rest" 
+            >
+              <motion.div
+                variants={{
+                  rest: { y: 0, rotate: 0, scale: 1 },
+                  hovered: { 
+                    y: [0, -2, 0], 
+                    rotate: [0, -12, 12, -6, 6, 0], 
+                    scale: 1.2,
+                    transition: { duration: 0.6, ease: "circOut" }
+                  }
+                }}
+              >
+                <Wand2 className="mr-2 h-4 w-4" />
+              </motion.div>
+              <motion.span
+                variants={{
+                  rest: { letterSpacing: "normal", scale: 1 },
+                  hovered: { 
+                    letterSpacing: "0.4px", 
+                    scale: 1.05,
+                    transition: { type: "spring", stiffness: 250, damping: 12 }
+                  }
+                }}
+              >
+                Generate Paper
+              </motion.span>
+            </motion.div>
           )}
         </Button>
       </form>
