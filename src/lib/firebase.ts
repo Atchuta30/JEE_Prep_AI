@@ -15,6 +15,15 @@ const firebaseConfig = {
 
 // Initialize Firebase
 let app: FirebaseApp;
+
+if (!firebaseConfig.apiKey || firebaseConfig.apiKey === "YOUR_FIREBASE_API_KEY") {
+  console.warn(
+    "Firebase API Key is missing or is using the placeholder value. " +
+    "Please set NEXT_PUBLIC_FIREBASE_API_KEY in your .env file for Firebase to work correctly."
+  );
+}
+
+
 if (!getApps().length) {
   app = initializeApp(firebaseConfig);
 } else {
@@ -25,3 +34,4 @@ const auth: Auth = getAuth(app);
 const db: Firestore = getFirestore(app);
 
 export { app, auth, db };
+
