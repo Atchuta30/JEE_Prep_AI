@@ -47,15 +47,15 @@ export function ThemeToggle() {
           {/* Icons: color inverts on hover */}
           <Sun className="
             relative z-10 h-[1.2rem] w-[1.2rem]
-            rotate-0 scale-100 transition-all
+            rotate-0 scale-100
             dark:-rotate-90 dark:scale-0
-            text-foreground group-hover:text-background /* Light: Sun (black) -> on hover text (white). Dark: initially hidden */
+            text-foreground group-hover:text-background 
           " />
           <Moon className="
             absolute z-10 h-[1.2rem] w-[1.2rem]
-            rotate-90 scale-0 transition-all
+            rotate-90 scale-0
             dark:rotate-0 dark:scale-100
-            text-foreground group-hover:text-background /* Light: initially hidden. Dark: Moon (white) -> on hover text (black) */
+            text-foreground group-hover:text-background
           " />
           <span className="sr-only">Toggle theme</span>
         </Button>
