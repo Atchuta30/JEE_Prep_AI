@@ -1,4 +1,3 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -251,67 +250,74 @@ h1, h2, h3, .swiss-title {
 /* Light Theme Defaults for CreativeStarButton */
 .jee-star-button {
   background: black;
-  color: white;
+  color: white; /* Affects text and icon if not overridden */
   border: 3px solid black;
 }
 .jee-star-button .jee-star-button-fil0 { /* Default star fill for light theme non-hover */
   fill: white; /* Stars are white on black button */
 }
 .jee-star-button .jee-wand-icon {
-  color: white;
+  color: white; /* Explicitly set icon color for non-hovered light theme */
 }
 .jee-star-button .jee-button-text {
-  color: white;
+  color: white; /* Explicitly set text color for non-hovered light theme */
 }
 
 
 /* Dark Theme Defaults for CreativeStarButton */
 .dark .jee-star-button {
   background: white;
-  color: black;
+  color: black; /* Affects text and icon if not overridden */
   border: 3px solid white;
 }
 .dark .jee-star-button .jee-star-button-fil0 { /* Default star fill for dark theme non-hover */
   fill: black; /* Stars are black on white button */
 }
 .dark .jee-star-button .jee-wand-icon {
-  color: black;
+  color: black; /* Explicitly set icon color for non-hovered dark theme */
 }
 .dark .jee-star-button .jee-button-text {
-  color: black;
+  color: black; /* Explicitly set text color for non-hovered dark theme */
 }
 
 
 /* Light Theme Hover */
 .jee-star-button:hover:not(:disabled):not(.jee-star-button-loading) {
   background: white;
-  color: black;
+  /* color: black; DON'T SET GENERAL COLOR HERE, handle text and icon separately */
   border-color: black; /* Keep border black for contrast */
   box-shadow: 0 0 25px rgba(0, 0, 0, 0.3);
 }
-/* Star and icon fill for Light Theme Hover */
+/* Star and TEXT fill/color for Light Theme Hover */
 .jee-star-button:hover:not(:disabled):not(.jee-star-button-loading) .jee-star-button-fil0,
-.jee-star-button:hover:not(:disabled):not(.jee-star-button-loading) .jee-wand-icon,
 .jee-star-button:hover:not(:disabled):not(.jee-star-button-loading) .jee-button-text {
-  fill: black; /* Stars turn black on light theme hover */
-  color: black; /* Icon and text turn black */
+  fill: black; /* Stars turn black */
+  color: black; /* Text turns black */
+}
+/* ICON color for Light Theme Hover - "as it was" (white) */
+.jee-star-button:hover:not(:disabled):not(.jee-star-button-loading) .jee-wand-icon {
+  color: white; /* Icon remains white (original color) */
 }
 
 
 /* Dark Theme Hover */
 .dark .jee-star-button:hover:not(:disabled):not(.jee-star-button-loading) {
   background: hsl(0 0% 15%); /* Dark metallic grey-ish background */
-  color: white; /* White text */
+  /* color: white; DON'T SET GENERAL COLOR HERE, handle text and icon separately */
   border-color: hsl(0 0% 70%); /* Lighter grey border */
   box-shadow: 0 0 25px hsla(0, 0%, 100%, 0.5); /* White glow */
 }
-/* Star and icon fill for Dark Theme Hover */
+/* Star and TEXT fill/color for Dark Theme Hover */
 .dark .jee-star-button:hover:not(:disabled):not(.jee-star-button-loading) .jee-star-button-fil0,
-.dark .jee-star-button:hover:not(:disabled):not(.jee-star-button-loading) .jee-wand-icon,
 .dark .jee-star-button:hover:not(:disabled):not(.jee-star-button-loading) .jee-button-text {
-  fill: white; /* Stars turn white on dark theme hover */
-  color: white; /* Icon and text turn white */
+  fill: white; /* Stars turn white */
+  color: white; /* Text turns white */
 }
+/* ICON color for Dark Theme Hover - "as it was" (black) */
+.dark .jee-star-button:hover:not(:disabled):not(.jee-star-button-loading) .jee-wand-icon {
+  color: black; /* Icon remains black (original color) */
+}
+
 
 /* Active (Pressed) State - Common */
 .jee-star-button:active:not(:disabled):not(.jee-star-button-loading) {
@@ -371,6 +377,13 @@ h1, h2, h3, .swiss-title {
 .jee-star-button-loading:hover .jee-star-button-fil0 {
     fill: #aaaaaa !important;
 }
+.jee-star-button-loading .jee-wand-icon,
+.jee-star-button-loading:hover .jee-wand-icon,
+.jee-star-button-loading .jee-button-text,
+.jee-star-button-loading:hover .jee-button-text {
+    color: #aaaaaa !important;
+}
+
 
 .dark .jee-star-button-loading,
 .dark .jee-star-button-loading:hover {
@@ -383,6 +396,12 @@ h1, h2, h3, .swiss-title {
 .dark .jee-star-button-loading .jee-star-button-fil0,
 .dark .jee-star-button-loading:hover .jee-star-button-fil0 {
     fill: #555555 !important;
+}
+.dark .jee-star-button-loading .jee-wand-icon,
+.dark .jee-star-button-loading:hover .jee-wand-icon,
+.dark .jee-star-button-loading .jee-button-text,
+.dark .jee-star-button-loading:hover .jee-button-text {
+    color: #555555 !important;
 }
 
 /* General Disabled State */
@@ -407,4 +426,3 @@ h1, h2, h3, .swiss-title {
   font-weight: 600; /* Bolder text on hover */
 }
 /* === CreativeStarButton END === */
-
