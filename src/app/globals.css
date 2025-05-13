@@ -26,8 +26,8 @@ body {
     --muted: 0 0% 90%; /* gray #e5e5e5 */
     --muted-foreground: 0 0% 40%; /* darker gray #666666 */
 
-    --accent: 160 95% 67%; /* User palette teal #5bfcc4 */
-    --accent-foreground: 0 0% 0%; /* black for contrast on teal */
+    --accent: 200 92% 61%; /* #40baf7 - User palette blue2 as primary accent */
+    --accent-foreground: 0 0% 0%; /* black for contrast on accent */
 
     --destructive: 0 0% 0%; /* black */
     --destructive-foreground: 0 0% 100%; /* white */
@@ -90,8 +90,8 @@ body {
     --muted: 0 0% 15%; /* slightly lighter dark gray #262626 */
     --muted-foreground: 0 0% 70%; /* lighter gray #b3b3b3 */
 
-    --accent: 160 95% 72%; /* Lighter User palette teal for dark mode #5bfcc4 -> #7CFDD7 */
-    --accent-foreground: 0 0% 0%; /* black for contrast on teal */
+    --accent: 200 92% 61%; /* #40baf7 - User palette blue2 as primary accent (same for dark) */
+    --accent-foreground: 0 0% 0%; /* black for contrast on accent */
 
 
     --destructive: 0 0% 100%; /* white */
@@ -284,7 +284,6 @@ h1, h2, h3, .swiss-title {
 /* Light Theme Hover */
 .jee-star-button:hover:not(:disabled):not(.jee-star-button-loading) {
   background: white;
-  /* color: black; DON'T SET GENERAL COLOR HERE, handle text and icon separately */
   border-color: black; /* Keep border black for contrast */
   box-shadow: 0 0 25px rgba(0, 0, 0, 0.3);
 }
@@ -294,16 +293,15 @@ h1, h2, h3, .swiss-title {
   fill: black; /* Stars turn black */
   color: black; /* Text turns black */
 }
-/* ICON color for Light Theme Hover - "as it was" (white) */
+/* ICON color for Light Theme Hover */
 .jee-star-button:hover:not(:disabled):not(.jee-star-button-loading) .jee-wand-icon {
-  color: white; /* Icon remains white (original color) */
+  color: black; /* Icon turns black, matching text */
 }
 
 
 /* Dark Theme Hover */
 .dark .jee-star-button:hover:not(:disabled):not(.jee-star-button-loading) {
   background: hsl(0 0% 15%); /* Dark metallic grey-ish background */
-  /* color: white; DON'T SET GENERAL COLOR HERE, handle text and icon separately */
   border-color: hsl(0 0% 70%); /* Lighter grey border */
   box-shadow: 0 0 25px hsla(0, 0%, 100%, 0.5); /* White glow */
 }
@@ -313,9 +311,9 @@ h1, h2, h3, .swiss-title {
   fill: white; /* Stars turn white */
   color: white; /* Text turns white */
 }
-/* ICON color for Dark Theme Hover - "as it was" (black) */
+/* ICON color for Dark Theme Hover */
 .dark .jee-star-button:hover:not(:disabled):not(.jee-star-button-loading) .jee-wand-icon {
-  color: black; /* Icon remains black (original color) */
+  color: white; /* Icon turns white, matching text */
 }
 
 
