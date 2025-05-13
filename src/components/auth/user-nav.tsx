@@ -47,8 +47,8 @@ export function UserNav() {
             {/* Water fill effect element */}
             <span
               className="absolute bottom-0 left-[-100%] w-full h-full
-                         bg-white
-                         transition-all duration-[1500ms] ease-out
+                         bg-black dark:bg-white
+                         transition-all duration-[700ms] ease-out
                          group-hover:left-0"
               aria-hidden="true"
               style={{ zIndex: 0 }} 
@@ -57,13 +57,13 @@ export function UserNav() {
             <span className="relative z-10 flex items-center">
               <LogIn
                 className="mr-2 h-4 w-4
-                           text-foreground group-hover:text-black
-                           dark:text-foreground dark:group-hover:text-black
+                           text-foreground 
+                           group-hover:text-white dark:group-hover:text-black
                            transition-colors duration-300"
               />
               <span
-                className="text-foreground group-hover:text-black
-                           dark:text-foreground dark:group-hover:text-black
+                className="text-foreground 
+                           group-hover:text-white dark:group-hover:text-black
                            transition-colors duration-300"
               >
                 Login
@@ -77,18 +77,19 @@ export function UserNav() {
                      bg-background text-foreground
                      dark:bg-foreground dark:text-background
                      border border-foreground dark:border-background
-                     transition-colors duration-300 ease-in-out
-                     hover:text-foreground dark:hover:text-background"
+                     hover:bg-background dark:hover:bg-foreground 
+                     hover:text-foreground dark:hover:text-background 
+                     transition-colors duration-300 ease-in-out"
           onMouseEnter={() => setIsHoveringSignUp(true)}
           onMouseLeave={() => setIsHoveringSignUp(false)}
         >
           <Link href="/signup" className="flex items-center justify-center w-full h-full">
             {/* Water fill effect element */}
             <span
-              className="absolute bottom-0 left-0 w-full 
-                         bg-black
+              className="absolute bottom-0 left-0 w-full h-0
+                         bg-black dark:bg-white 
                          transition-all duration-[700ms] ease-out
-                         group-hover:h-full h-0"
+                         group-hover:h-full"
               aria-hidden="true"
             />
             {/* Icon and Text */}
@@ -100,12 +101,12 @@ export function UserNav() {
               <PlusCircle
                 className="mr-2 h-4 w-4 
                            text-foreground group-hover:text-white
-                           dark:text-background dark:group-hover:text-white
+                           dark:text-background dark:group-hover:text-black
                            transition-colors duration-300"
               />
               <span
                 className="text-foreground group-hover:text-white
-                           dark:text-background dark:group-hover:text-white
+                           dark:text-background dark:group-hover:text-black
                            transition-colors duration-300"
               >
                 Sign Up
@@ -168,3 +169,4 @@ export function UserNav() {
     </DropdownMenu>
   );
 }
+
