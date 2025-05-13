@@ -1,12 +1,13 @@
 
 
+
 // src/components/jee/question-form.tsx
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
-import { CreativeStarButton } from "./creative-star-button"; // Changed import
+import { CreativeStarButton } from "./creative-star-button"; 
 import {
   Form,
   FormControl,
@@ -25,7 +26,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import type { JEEPaperDifficulty, JEEPaperSubject } from "@/lib/types";
-import { ChevronsUpDown, XCircle, Atom, FlaskConical, Sigma } from "lucide-react";
+import { ChevronsUpDown, XCircle, Atom, FlaskConical, Sigma, Wand2 } from "lucide-react"; // Added Wand2
 import { useEffect, useState } from "react";
 import {
   DropdownMenu,
@@ -232,16 +233,14 @@ export function QuestionForm({ onSubmit, isLoading = false, defaultValues }: Que
     onSubmit(finalValues);
   };
   
-  // Explicitly type the event for onClick
   const onGenerateClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault(); // Prevent default form submission if type="submit"
-    form.handleSubmit(handleFormSubmit)(); // Manually trigger react-hook-form's submit
+    event.preventDefault(); 
+    form.handleSubmit(handleFormSubmit)(); 
   };
 
 
   return (
     <Form {...form}>
-      {/* Changed form onSubmit to a div, button now handles submission */}
       <div className="space-y-8">
         <div className="grid md:grid-cols-2 gap-6">
           <FormField
@@ -309,8 +308,8 @@ export function QuestionForm({ onSubmit, isLoading = false, defaultValues }: Que
               <FormControl>
                 <DropdownMenu open={isTopicDropdownOpen} onOpenChange={setIsTopicDropdownOpen}>
                   <DropdownMenuTrigger asChild>
-                    <button // Changed from Button to button to avoid conflicts if Button is a styled component
-                      type="button" // Important: set type to button to prevent form submission
+                    <button 
+                      type="button" 
                       role="combobox"
                       aria-expanded={isTopicDropdownOpen}
                       className={cn(
@@ -318,7 +317,7 @@ export function QuestionForm({ onSubmit, isLoading = false, defaultValues }: Que
                         !selectedSubject && "text-muted-foreground"
                       )}
                       disabled={!selectedSubject || isLoading}
-                      onClick={() => setIsTopicDropdownOpen(!isTopicDropdownOpen)} // Manually toggle dropdown
+                      onClick={() => setIsTopicDropdownOpen(!isTopicDropdownOpen)} 
                     >
                       {selectedTopicNames.length > 0
                         ? `${selectedTopicNames.length} topic(s) selected`
@@ -395,7 +394,8 @@ export function QuestionForm({ onSubmit, isLoading = false, defaultValues }: Que
             isLoading={isLoading}
             className="w-full md:w-auto" 
           >
-            Generate Paper
+            <Wand2 className="jee-wand-icon mr-2 h-5 w-5" />
+            <span className="jee-button-text">Generate Paper</span>
           </CreativeStarButton>
         </div>
       </div>
