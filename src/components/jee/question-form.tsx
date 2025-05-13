@@ -1,4 +1,5 @@
 
+
 // src/components/jee/question-form.tsx
 "use client";
 
@@ -388,15 +389,17 @@ export function QuestionForm({ onSubmit, isLoading = false, defaultValues }: Que
             </FormItem>
           )}
         />
-        
-        <CreativeStarButton
-          onClick={onGenerateClick}
-          isLoading={isLoading}
-          className="w-full md:w-auto" // Add any specific layout classes here
-        >
-          Generate Paper
-        </CreativeStarButton>
+        <div className="flex justify-center">
+          <CreativeStarButton
+            onClick={onGenerateClick}
+            isLoading={isLoading}
+            className="w-full md:w-auto" 
+          >
+            Generate Paper
+          </CreativeStarButton>
+        </div>
       </div>
     </Form>
   );
 }
+
