@@ -16,10 +16,14 @@ import { useAuth } from "@/hooks/use-auth";
 import { LogIn, LogOut, UserCircle, History, Settings, PlusCircle } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useState, useRef, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+
 
 export function UserNav() {
   const { user, signOutUser } = useAuth();
   const router = useRouter();
+  const [isHoveringSignUp, setIsHoveringSignUp] = useState(false);
 
   const handleSignOut = async () => {
     try {
@@ -34,9 +38,37 @@ export function UserNav() {
   if (!user) {
     return (
       <div className="flex items-center gap-2">
-        <Button variant="outline" asChild>
-          <Link href="/login">
-            <LogIn className="mr-2 h-4 w-4" /> Login
+        <Button
+          variant="outline"
+          asChild
+          className="relative overflow-hidden group hover:bg-transparent dark:hover:bg-transparent"
+        >
+          <Link href="/login" className="flex items-center justify-center w-full h-full">
+            {/* Water fill effect element */}
+            <span
+              className="absolute bottom-0 left-[-100%] w-full h-full
+                         bg-white
+                         transition-all duration-[1500ms] ease-out
+                         group-hover:left-0"
+              aria-hidden="true"
+              style={{ zIndex: 0 }} 
+            />
+            {/* Icon and Text wrapper */}
+            <span className="relative z-10 flex items-center">
+              <LogIn
+                className="mr-2 h-4 w-4
+                           text-foreground group-hover:text-black
+                           dark:text-foreground dark:group-hover:text-black
+                           transition-colors duration-300"
+              />
+              <span
+                className="text-foreground group-hover:text-black
+                           dark:text-foreground dark:group-hover:text-black
+                           transition-colors duration-300"
+              >
+                Login
+              </span>
+            </span>
           </Link>
         </Button>
         <Button
@@ -44,32 +76,41 @@ export function UserNav() {
           className="relative overflow-hidden group
                      bg-background text-foreground
                      dark:bg-foreground dark:text-background
-                     transition-colors duration-300 ease-in-out"
+                     border border-foreground dark:border-background
+                     transition-colors duration-300 ease-in-out
+                     hover:text-foreground dark:hover:text-background"
+          onMouseEnter={() => setIsHoveringSignUp(true)}
+          onMouseLeave={() => setIsHoveringSignUp(false)}
         >
           <Link href="/signup" className="flex items-center justify-center w-full h-full">
             {/* Water fill effect element */}
             <span
-              className="absolute bottom-0 left-0 w-full h-0
+              className="absolute bottom-0 left-0 w-full 
                          bg-black
                          transition-all duration-[700ms] ease-out
-                         group-hover:h-full"
+                         group-hover:h-full h-0"
               aria-hidden="true"
             />
             {/* Icon and Text */}
-            <PlusCircle
-              className="mr-2 h-4 w-4 relative z-10
-                         text-foreground group-hover:text-white
-                         dark:text-background dark:group-hover:text-white
-                         transition-colors duration-300"
-            />
-            <span
-              className="relative z-10
-                         text-foreground group-hover:text-white
-                         dark:text-background dark:group-hover:text-white
-                         transition-colors duration-300"
+            <motion.span 
+              className="relative z-10 flex items-center"
+              animate={{ fontWeight: isHoveringSignUp ? 900 : 400 }}
+              transition={{ type: "spring", stiffness: 300, damping: 20 }}
             >
-              Sign Up
-            </span>
+              <PlusCircle
+                className="mr-2 h-4 w-4 
+                           text-foreground group-hover:text-white
+                           dark:text-background dark:group-hover:text-white
+                           transition-colors duration-300"
+              />
+              <span
+                className="text-foreground group-hover:text-white
+                           dark:text-background dark:group-hover:text-white
+                           transition-colors duration-300"
+              >
+                Sign Up
+              </span>
+            </motion.span>
           </Link>
         </Button>
       </div>
