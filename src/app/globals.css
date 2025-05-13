@@ -27,8 +27,8 @@ body {
     --muted: 0 0% 90%; /* gray #e5e5e5 */
     --muted-foreground: 0 0% 40%; /* darker gray #666666 */
 
-    --accent: 200 92% 61%; /* #40baf7 - Vibrant Blue from user palette */
-    --accent-foreground: 0 0% 100%; /* white */
+    --accent: 160 95% 67%; /* User palette teal #5bfcc4 */
+    --accent-foreground: 0 0% 0%; /* black for contrast on teal */
 
     --destructive: 0 0% 0%; /* black */
     --destructive-foreground: 0 0% 100%; /* white */
@@ -39,16 +39,17 @@ body {
 
     --radius: 0.5rem;
 
-    /* Chart Colors - Monochrome (shades of dark gray/black for light mode) */
-    --chart-1: 0 0% 20%;
-    --chart-2: 0 0% 30%;
-    --chart-3: 0 0% 40%;
-    --chart-4: 0 0% 50%;
-    --chart-5: 0 0% 60%;
+    /* Chart Colors - Using user palette for variety */
+    --chart-1: hsl(var(--user-palette-teal));
+    --chart-2: hsl(var(--user-palette-pink));
+    --chart-3: hsl(var(--user-palette-blue1));
+    --chart-4: hsl(var(--user-palette-blue2));
+    --chart-5: hsl(var(--user-palette-magenta));
 
     /* For glowing grid */
     --grid-dot-base-color: hsl(0 0% 0% / 0.12); /* Darker black dots */
-    --grid-dot-glow-color: hsl(var(--user-palette-teal) / 0.85);
+    --grid-dot-glow-color: hsl(var(--user-palette-blue2) / 0.95); /* Using blue2 for glow */
+
 
     --mouse-x: 50%;
     --mouse-y: 50%;
@@ -63,7 +64,7 @@ body {
     --sidebar-border: var(--border);
     --sidebar-ring: var(--ring);
 
-    /* User Palette Colors */
+    /* User Palette Colors HSL */
     --user-palette-teal: 160 95% 67%; /* #5bfcc4 */
     --user-palette-pink: 318 86% 77%; /* #f593e4 */
     --user-palette-blue1: 217 82% 75%; /* #71a4f0 */
@@ -90,8 +91,9 @@ body {
     --muted: 0 0% 15%; /* slightly lighter dark gray #262626 */
     --muted-foreground: 0 0% 70%; /* lighter gray #b3b3b3 */
 
-    --accent: 200 92% 65%; /* #40baf7 - Lighter Vibrant Blue for dark mode */
-    --accent-foreground: 0 0% 0%; /* black */
+    --accent: 160 95% 72%; /* Lighter User palette teal for dark mode #5bfcc4 -> #7CFDD7 */
+    --accent-foreground: 0 0% 0%; /* black for contrast on teal */
+
 
     --destructive: 0 0% 100%; /* white */
     --destructive-foreground: 0 0% 0%; /* black */
@@ -100,16 +102,17 @@ body {
     --input: 0 0% 20%;
     --ring: 0 0% 100%; /* white */
 
-    /* Chart Colors - Monochrome (shades of light gray/white for dark mode) */
-    --chart-1: 0 0% 80%;
-    --chart-2: 0 0% 70%;
-    --chart-3: 0 0% 60%;
-    --chart-4: 0 0% 50%;
-    --chart-5: 0 0% 40%;
+    /* Chart Colors - Using user palette (can adjust lightness for dark mode if needed) */
+    --chart-1: hsl(var(--user-palette-teal) / 0.8);
+    --chart-2: hsl(var(--user-palette-pink) / 0.8);
+    --chart-3: hsl(var(--user-palette-blue1) / 0.8);
+    --chart-4: hsl(var(--user-palette-blue2) / 0.8);
+    --chart-5: hsl(var(--user-palette-magenta) / 0.8);
+
 
     /* For glowing grid in dark mode */
     --grid-dot-base-color: hsl(0 0% 100% / 0.12); /* Darker white dots */
-    --grid-dot-glow-color: hsl(var(--user-palette-teal) / 0.85);
+    --grid-dot-glow-color: hsl(var(--user-palette-blue1) / 0.95); /* Using blue1 for glow in dark mode */
 
 
     /* Sidebar variables for dark mode */
@@ -252,8 +255,15 @@ h1, h2, h3, .swiss-title {
   border: 3px solid black;
 }
 .jee-star-button .jee-star-button-fil0 { /* Default star fill for light theme non-hover */
-  fill: #fffdef;
+  fill: white; /* Stars are white on black button */
 }
+.jee-star-button .jee-wand-icon {
+  color: white;
+}
+.jee-star-button .jee-button-text {
+  color: white;
+}
+
 
 /* Dark Theme Defaults for CreativeStarButton */
 .dark .jee-star-button {
@@ -262,32 +272,62 @@ h1, h2, h3, .swiss-title {
   border: 3px solid white;
 }
 .dark .jee-star-button .jee-star-button-fil0 { /* Default star fill for dark theme non-hover */
-  fill: #fffdef; /* Off-white stars are fine on a white button */
+  fill: black; /* Stars are black on white button */
 }
+.dark .jee-star-button .jee-wand-icon {
+  color: black;
+}
+.dark .jee-star-button .jee-button-text {
+  color: black;
+}
+
 
 /* Light Theme Hover */
 .jee-star-button:hover:not(:disabled):not(.jee-star-button-loading) {
   background: white;
   color: black;
-  border-color: black;
+  border-color: black; /* Keep border black for contrast */
   box-shadow: 0 0 25px rgba(0, 0, 0, 0.3);
 }
-/* Star fill for Light Theme Hover */
-.jee-star-button:hover:not(:disabled):not(.jee-star-button-loading) .jee-star-button-fil0 {
+/* Star and icon fill for Light Theme Hover */
+.jee-star-button:hover:not(:disabled):not(.jee-star-button-loading) .jee-star-button-fil0,
+.jee-star-button:hover:not(:disabled):not(.jee-star-button-loading) .jee-wand-icon,
+.jee-star-button:hover:not(:disabled):not(.jee-star-button-loading) .jee-button-text {
   fill: black; /* Stars turn black on light theme hover */
+  color: black; /* Icon and text turn black */
 }
+
 
 /* Dark Theme Hover */
 .dark .jee-star-button:hover:not(:disabled):not(.jee-star-button-loading) {
-  background: hsl(0 0% 50%); /* Metallic grey-ish background */
+  background: hsl(0 0% 15%); /* Dark metallic grey-ish background */
   color: white; /* White text */
   border-color: hsl(0 0% 70%); /* Lighter grey border */
   box-shadow: 0 0 25px hsla(0, 0%, 100%, 0.5); /* White glow */
 }
-/* Star fill for Dark Theme Hover */
-.dark .jee-star-button:hover:not(:disabled):not(.jee-star-button-loading) .jee-star-button-fil0 {
+/* Star and icon fill for Dark Theme Hover */
+.dark .jee-star-button:hover:not(:disabled):not(.jee-star-button-loading) .jee-star-button-fil0,
+.dark .jee-star-button:hover:not(:disabled):not(.jee-star-button-loading) .jee-wand-icon,
+.dark .jee-star-button:hover:not(:disabled):not(.jee-star-button-loading) .jee-button-text {
   fill: white; /* Stars turn white on dark theme hover */
+  color: white; /* Icon and text turn white */
 }
+
+/* Active (Pressed) State - Common */
+.jee-star-button:active:not(:disabled):not(.jee-star-button-loading) {
+  transform: translateY(2px); /* Move button down */
+}
+
+/* Active State Shadow - Light Theme */
+.jee-star-button:active:not(:disabled):not(.jee-star-button-loading) {
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2), inset 0 1px 2px rgba(0,0,0,0.1);
+}
+
+/* Active State Shadow - Dark Theme */
+.dark .jee-star-button:active:not(:disabled):not(.jee-star-button-loading) {
+  box-shadow: 0 0 10px hsla(0, 0%, 100%, 0.3), inset 0 1px 2px rgba(255,255,255,0.05);
+}
+
 
 /* Star Positioning and Animation Styles */
 .jee-star-button .jee-star-button-star-1 { top: 20%; left: 20%; width: 25px; height: auto; transition: all 1s cubic-bezier(0.05, 0.83, 0.43, 0.96); }
@@ -365,8 +405,6 @@ h1, h2, h3, .swiss-title {
 /* Styling for text inside CreativeStarButton on hover */
 .jee-star-button:hover:not(:disabled):not(.jee-star-button-loading) .jee-button-text {
   font-weight: 600; /* Bolder text on hover */
-  /* Optional: Add a subtle text shadow if needed, but color change from button usually suffices
-  text-shadow: 0 0 3px currentColor; 
-  */
 }
 /* === CreativeStarButton END === */
+
