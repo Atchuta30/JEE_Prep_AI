@@ -48,7 +48,7 @@ body {
 
     /* For glowing grid */
     --grid-dot-base-color: hsl(0 0% 0% / 0.12); /* Darker black dots */
-    --grid-dot-glow-color: hsl(160 95% 67% / 0.85); /* #5bfcc4 - Teal/Greenish-Cyan from user palette */
+    --grid-dot-glow-color: hsl(var(--user-palette-teal) / 0.85); /* Updated to use user-palette-teal */
 
     --mouse-x: 50%;
     --mouse-y: 50%;
@@ -62,6 +62,13 @@ body {
     --sidebar-accent-foreground: var(--accent-foreground);
     --sidebar-border: var(--border);
     --sidebar-ring: var(--ring);
+
+    /* User Palette Colors */
+    --user-palette-teal: 160 95% 67%; /* #5bfcc4 */
+    --user-palette-pink: 318 86% 77%; /* #f593e4 */
+    --user-palette-blue1: 217 82% 75%; /* #71a4f0 */
+    --user-palette-blue2: 200 92% 61%; /* #40baf7 */
+    --user-palette-magenta: 319 89% 62%; /* #f34ad7 */
   }
 
   .dark {
@@ -102,7 +109,8 @@ body {
     
     /* For glowing grid in dark mode */
     --grid-dot-base-color: hsl(0 0% 100% / 0.12); /* Darker white dots */
-    --grid-dot-glow-color: hsl(160 95% 70% / 0.85); /* #5bfcc4 - Lighter Teal/Greenish-Cyan for dark mode */
+    --grid-dot-glow-color: hsl(var(--user-palette-teal) / 0.85); /* Updated to use user-palette-teal, ensure good contrast in dark mode */
+
 
     /* Sidebar variables for dark mode */
     --sidebar-background: var(--card);
@@ -230,14 +238,14 @@ h1, h2, h3, .swiss-title {
   font-size: 1rem;
   cursor: pointer;
   position: relative;
-  background: linear-gradient(90deg, #5bfcc4, #f593e4, #71a4f0); /* User palette */
+  background: linear-gradient(90deg, hsl(var(--user-palette-teal)), hsl(var(--user-palette-pink)), hsl(var(--user-palette-blue1)));
   border-radius: 12px;
   color: #fff; /* Text color for the button */
   transition: all 0.3s ease;
   box-shadow:
-    inset 0px 0px 5px #ffffffa9, /* Inner highlight */
+    inset 0px 0px 5px hsla(0, 0%, 100%, 0.66), /* Inner highlight */
     inset 0px 35px 30px #000, /* Inner depth shadow */
-    0px 5px 10px #000000cc; /* Outer drop shadow */
+    0px 5px 10px hsla(0, 0%, 0%, 0.8); /* Outer drop shadow */
   text-shadow: 1px 1px 1px #000; /* Text shadow for depth */
   -webkit-tap-highlight-color: transparent; /* Remove tap highlight on mobile */
 }
@@ -246,7 +254,28 @@ h1, h2, h3, .swiss-title {
   width: 24px; /* Ensure SVG size */
   height: 24px;
   fill: currentColor; /* SVG uses parent's color, which is #fff */
+  transition: transform 0.3s ease-in-out;
 }
+
+/*
+.outer-cont:hover svg {
+  animation: sparkle-spin 1s linear infinite;
+}
+
+
+@keyframes sparkle-spin {
+  0% {
+    transform: rotate(0deg) scale(1);
+  }
+  50% {
+    transform: rotate(180deg) scale(1.2);
+  }
+  100% {
+    transform: rotate(360deg) scale(1);
+  }
+}
+*/
+
 
 .outer-cont::before {
   content: "";
@@ -258,28 +287,30 @@ h1, h2, h3, .swiss-title {
   z-index: -1; /* Behind the main content */
   box-shadow: none;
   background: conic-gradient(
-    #00000000 80deg, 
-    #40baf7, /* User palette */
-    #f593e4, /* User palette (used #f593e4 instead of #f34ad7 as likely intended) */
-    #5bfcc4, /* User palette */
-    #00000000 280deg 
+    hsla(0, 0%, 0%, 0) 80deg, 
+    hsl(var(--user-palette-blue2)), /* User palette */
+    hsl(var(--user-palette-magenta)), /* User palette */
+    hsl(var(--user-palette-teal)), /* User palette */
+    hsla(0, 0%, 0%, 0) 280deg 
   );
   transition: all 0.3s ease;
 }
 
 .outer-cont:hover::before {
   filter: blur(15px); /* Blur effect on hover */
+  transform: scale(1.05); /* Slight scale up of the glow */
 }
 
 .outer-cont:active::before {
-  filter: blur(5px); /* Less blur on active/click */
-  transform: translateY(1px); /* Slight push down effect */
+  filter: blur(8px); /* Less blur on active/click */
+  transform: translateY(1px) scale(1.02); /* Slight push down effect */
 }
 
 .outer-cont:active {
   box-shadow:
-    inset 0px 0px 5px #ffffffa9,
-    inset 0px 35px 30px #000; /* Keep inner shadows */
+    inset 0px 0px 5px hsla(0, 0%, 100%, 0.66),
+    inset 0px 35px 30px #000, /* Keep inner shadows */
+    0px 2px 5px hsla(0, 0%, 0%, 0.6); /* Reduced outer drop shadow */
   transform: translateY(2px); /* Push button down slightly */
 }
 
