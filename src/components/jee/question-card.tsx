@@ -42,10 +42,12 @@ export const QuestionCard: FC<QuestionCardProps> = ({
           <span>Question {questionNumber}</span>
           {showCorrectAnswer && selectedAnswer !== undefined && selectedAnswer !== null && (
             <span
-              className={`px-3 py-1 rounded-full text-xs font-semibold
-                ${selectedAnswer === question.correctAnswer 
+              className={cn(
+                `px-3 py-1 rounded-full text-xs font-semibold`,
+                selectedAnswer === question.correctAnswer 
                   ? 'bg-green-500 text-white dark:bg-green-600 dark:text-green-50' 
-                  : 'bg-red-500 text-white dark:bg-red-600 dark:text-red-50'}`}
+                  : 'bg-red-500 text-white dark:bg-red-600 dark:text-red-50'
+              )}
             >
               {selectedAnswer === question.correctAnswer ? (
                 <CheckCircle className="inline-block mr-1 h-4 w-4" />
@@ -121,14 +123,13 @@ export const QuestionCard: FC<QuestionCardProps> = ({
               {question.explanation ? "Explanation" : "Correct Answer"}
             </h4>
             <div className="text-sm text-foreground/80 space-y-1">
-              {question.explanation ? (
+              {!question.explanation && ( // Show correct option if no explanation
+                <p>The correct answer is <strong>Option {getOptionLabel(question.correctAnswer)}</strong>: 
+                  <MathJaxRenderer latex={question.options[question.correctAnswer]} className="inline-block ml-1"/>
+                </p>
+              )}
+              {question.explanation && (
                 <MathJaxRenderer latex={question.explanation} />
-              ) : (
-                 // Ensure this part is shown if no explicit explanation
-                <>
-                  <p>The correct answer is <strong>Option {getOptionLabel(question.correctAnswer)}</strong>.</p>
-                  <MathJaxRenderer latex={question.options[question.correctAnswer]} className="inline-block"/>
-                </>
               )}
             </div>
           </div>

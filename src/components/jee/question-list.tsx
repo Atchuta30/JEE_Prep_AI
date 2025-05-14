@@ -1,3 +1,4 @@
+
 "use client";
 
 import type { FC } from 'react';
@@ -20,16 +21,17 @@ export const QuestionList: FC<QuestionListProps> = ({ paper, onPaperSubmit, isRe
   const [answers, setAnswers] = useState<(number | null)[]>(() => 
     paper.questions.map(q => q.userSelectedAnswer !== undefined ? q.userSelectedAnswer : null)
   );
-  const [isSubmitted, setIsSubmitted] = useState(isReadOnly); // If read-only, assume it's submitted/post-submission view
+  // Initialize isSubmitted based on isReadOnly. If it's a past paper view, it's already "submitted".
+  const [isSubmitted, setIsSubmitted] = useState(isReadOnly); 
 
   useEffect(() => {
-    // If paper.questions have pre-filled answers (e.g. loading a saved attempt)
+    // Update answers and submission state if the paper or isReadOnly status changes
     setAnswers(paper.questions.map(q => q.userSelectedAnswer !== undefined ? q.userSelectedAnswer : null));
-    setIsSubmitted(isReadOnly);
+    setIsSubmitted(isReadOnly); // Reset submission state based on read-only status
   }, [paper, isReadOnly]);
 
   const handleAnswerSelect = (questionIndex: number, optionIndex: number) => {
-    if (isSubmitted) return;
+    if (isSubmitted) return; // Prevent changes if already submitted
     setAnswers(prevAnswers => {
       const newAnswers = [...prevAnswers];
       newAnswers[questionIndex] = optionIndex;
@@ -38,7 +40,7 @@ export const QuestionList: FC<QuestionListProps> = ({ paper, onPaperSubmit, isRe
   };
 
   const handleSubmit = () => {
-    setIsSubmitted(true);
+    setIsSubmitted(true); // Mark as submitted to trigger answer display and disable inputs
     if (onPaperSubmit) {
       onPaperSubmit(answers);
     }
@@ -50,24 +52,24 @@ export const QuestionList: FC<QuestionListProps> = ({ paper, onPaperSubmit, isRe
     let calculatedCorrectCount = 0;
 
     paper.questions.forEach((question, index) => {
-      if (answers[index] !== null) { // Check current answers state
+      const currentSelectedAnswer = answers[index]; // Use current answers from state
+      if (currentSelectedAnswer !== null && currentSelectedAnswer !== undefined) {
         calculatedAnsweredCount++;
-        // Score and correct count are only determined if the paper is submitted
-        if (isSubmitted && answers[index] === question.correctAnswer) {
-          calculatedScore++;
-          calculatedCorrectCount++;
+        if (currentSelectedAnswer === question.correctAnswer) {
+          calculatedCorrectCount++; // Count as correct for current UI calculation
         }
       }
     });
+    
+    // Use paper.score if available and showScore is true (typically for history)
+    // Otherwise, use the calculatedCorrectCount if the paper has just been submitted.
+    const displayScore = (showScore && paper.score !== undefined) ? paper.score : calculatedCorrectCount;
 
     return {
-      // Score is the number of correct answers if submitted, otherwise 0.
-      score: calculatedScore, 
+      score: displayScore, 
       total: paper.questions.length,
-      // Answered count is always based on current selections.
       answered: calculatedAnsweredCount,
-      // Correct count is the number of correct answers if submitted, otherwise 0.
-      correct: calculatedCorrectCount, 
+      correct: calculatedCorrectCount, // This is the live count of correct answers by the user for the current attempt
     };
   };
 
@@ -83,8 +85,8 @@ export const QuestionList: FC<QuestionListProps> = ({ paper, onPaperSubmit, isRe
           questionNumber={index + 1}
           onAnswerSelect={(optionIndex) => handleAnswerSelect(index, optionIndex)}
           selectedAnswer={answers[index]}
-          showCorrectAnswer={isSubmitted}
-          isReadOnly={isReadOnly || isSubmitted}
+          showCorrectAnswer={isSubmitted} // This controls revealing answers and explanations
+          isReadOnly={isReadOnly || isSubmitted} // This disables the radio buttons
         />
       ))}
 
@@ -130,17 +132,25 @@ export const QuestionList: FC<QuestionListProps> = ({ paper, onPaperSubmit, isRe
         </Card>
       )}
       
-      {(isSubmitted || showScore) && paper.questions.length > 0 && (
+      {/* Display score if the paper is submitted (isSubmitted is true) OR if showScore is true (for history page) */}
+      {(isSubmitted || (showScore && paper.score !== undefined)) && paper.questions.length > 0 && (
          <Card className="mt-8 shadow-lg">
           <CardHeader>
             <CardTitle>Your Score</CardTitle>
           </CardHeader>
           <CardContent className="text-center">
-            <p className="text-4xl font-bold text-primary">{correct} / {total}</p>
-            <p className="text-muted-foreground mt-1">
-              You answered {answered} questions and got {correct} correct.
+            {/* If isSubmitted is true, show 'correct' which is live calculated. 
+                If only showScore is true (history), show 'score' from paper data. */}
+            <p className="text-4xl font-bold text-primary">
+                {isSubmitted ? correct : score} / {total}
             </p>
-            {paper.score !== undefined && paper.score !== null && showScore && <p className="text-xs text-muted-foreground">(Paper recorded score: {paper.score}/{total})</p>}
+            <p className="text-muted-foreground mt-1">
+              You answered {answered} questions and got {isSubmitted ? correct : score} correct.
+            </p>
+            {/* Display recorded score from paper object if viewing history and it exists */}
+            {showScore && paper.score !== undefined && !isSubmitted && (
+                 <p className="text-xs text-muted-foreground">(Paper recorded score: {paper.score}/{total})</p>
+            )}
           </CardContent>
         </Card>
       )}
