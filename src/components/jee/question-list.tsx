@@ -13,25 +13,30 @@ import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, 
 interface QuestionListProps {
   paper: JEEPaper;
   onPaperSubmit?: (answers: (number | null)[]) => void; // Callback when paper is submitted
-  isReadOnly?: boolean; // If true, shows answers and disables interaction
-  showScore?: boolean; // If true, displays score if available
+  isReadOnly?: boolean; // If true, shows answers and disables interaction (viewing from history)
+  showScore?: boolean; // If true, displays score if available (primarily for history page)
 }
 
 export const QuestionList: FC<QuestionListProps> = ({ paper, onPaperSubmit, isReadOnly = false, showScore = false }) => {
-  const [answers, setAnswers] = useState<(number | null)[]>(() => 
+  const [answers, setAnswers] = useState<(number | null)[]>(() =>
     paper.questions.map(q => q.userSelectedAnswer !== undefined ? q.userSelectedAnswer : null)
   );
-  // Initialize isSubmitted based on isReadOnly. If it's a past paper view, it's already "submitted".
-  const [isSubmitted, setIsSubmitted] = useState(isReadOnly); 
+  // This state tracks if the user has clicked "Submit Paper" in the current session for the current paper.
+  // It's initialized to `isReadOnly` because if we are in read-only mode (history), it's already "submitted".
+  const [userHasSubmittedThisSession, setUserHasSubmittedThisSession] = useState(isReadOnly);
 
   useEffect(() => {
-    // Update answers and submission state if the paper or isReadOnly status changes
+    // When the paper prop changes (e.g., new paper generated or viewing a different history item)
+    // or when isReadOnly prop changes (e.g. component is reused for active vs history paper)
     setAnswers(paper.questions.map(q => q.userSelectedAnswer !== undefined ? q.userSelectedAnswer : null));
-    setIsSubmitted(isReadOnly); // Reset submission state based on read-only status
+    // If isReadOnly is true (viewing history), then for display purposes, it's considered submitted.
+    // Otherwise, for a new paper being attempted, its submission status is false until the user clicks submit.
+    setUserHasSubmittedThisSession(isReadOnly);
   }, [paper, isReadOnly]);
 
   const handleAnswerSelect = (questionIndex: number, optionIndex: number) => {
-    if (isSubmitted) return; // Prevent changes if already submitted
+    // Prevent changes if viewing from history OR if the user has already submitted this session.
+    if (isReadOnly || userHasSubmittedThisSession) return;
     setAnswers(prevAnswers => {
       const newAnswers = [...prevAnswers];
       newAnswers[questionIndex] = optionIndex;
@@ -40,14 +45,13 @@ export const QuestionList: FC<QuestionListProps> = ({ paper, onPaperSubmit, isRe
   };
 
   const handleSubmit = () => {
-    setIsSubmitted(true); // Mark as submitted to trigger answer display and disable inputs
+    setUserHasSubmittedThisSession(true); // Mark as submitted for the current session
     if (onPaperSubmit) {
       onPaperSubmit(answers);
     }
   };
 
-  const calculateScore = () => {
-    let calculatedScore = 0;
+  const calculateScoreForDisplay = () => {
     let calculatedAnsweredCount = 0;
     let calculatedCorrectCount = 0;
 
@@ -56,25 +60,23 @@ export const QuestionList: FC<QuestionListProps> = ({ paper, onPaperSubmit, isRe
       if (currentSelectedAnswer !== null && currentSelectedAnswer !== undefined) {
         calculatedAnsweredCount++;
         if (currentSelectedAnswer === question.correctAnswer) {
-          calculatedCorrectCount++; // Count as correct for current UI calculation
+          calculatedCorrectCount++;
         }
       }
     });
-    
-    // Use paper.score if available and showScore is true (typically for history)
-    // Otherwise, use the calculatedCorrectCount if the paper has just been submitted.
-    const displayScore = (showScore && paper.score !== undefined) ? paper.score : calculatedCorrectCount;
 
     return {
-      score: displayScore, 
       total: paper.questions.length,
       answered: calculatedAnsweredCount,
-      correct: calculatedCorrectCount, // This is the live count of correct answers by the user for the current attempt
+      correct: calculatedCorrectCount, // Live calculation based on current `answers` state
     };
   };
 
-  const { score, total, answered, correct } = calculateScore();
+  const { total, answered, correct: liveCorrectAnswers } = calculateScoreForDisplay();
   const progress = total > 0 ? (answered / total) * 100 : 0;
+  
+  // Determine which score to display
+  const displayFinalScore = (isReadOnly && paper.score !== undefined) ? paper.score : liveCorrectAnswers;
 
   return (
     <div className="space-y-8">
@@ -85,12 +87,15 @@ export const QuestionList: FC<QuestionListProps> = ({ paper, onPaperSubmit, isRe
           questionNumber={index + 1}
           onAnswerSelect={(optionIndex) => handleAnswerSelect(index, optionIndex)}
           selectedAnswer={answers[index]}
-          showCorrectAnswer={isSubmitted} // This controls revealing answers and explanations
-          isReadOnly={isReadOnly || isSubmitted} // This disables the radio buttons
+          // Show correct answer if viewing history OR if user submitted this session
+          showCorrectAnswer={isReadOnly || userHasSubmittedThisSession}
+          // Disable interaction if viewing history OR if user submitted this session
+          isReadOnly={isReadOnly || userHasSubmittedThisSession}
         />
       ))}
 
-      {!isReadOnly && !isSubmitted && paper.questions.length > 0 && (
+      {/* Progress and Submit button section: Show only if NOT in read-only mode AND user has NOT submitted this session */}
+      {!isReadOnly && !userHasSubmittedThisSession && paper.questions.length > 0 && (
         <Card className="mt-8 shadow-lg">
           <CardHeader>
             <CardTitle>Test Progress</CardTitle>
@@ -105,8 +110,8 @@ export const QuestionList: FC<QuestionListProps> = ({ paper, onPaperSubmit, isRe
           <CardFooter>
             <AlertDialog>
               <AlertDialogTrigger asChild>
-                <Button 
-                  size="lg" 
+                <Button
+                  size="lg"
                   className="w-full bg-accent hover:bg-accent/90 text-accent-foreground"
                   disabled={answered !== total} // Enable only if all questions are answered
                 >
@@ -131,24 +136,22 @@ export const QuestionList: FC<QuestionListProps> = ({ paper, onPaperSubmit, isRe
           </CardFooter>
         </Card>
       )}
-      
-      {/* Display score if the paper is submitted (isSubmitted is true) OR if showScore is true (for history page) */}
-      {(isSubmitted || (showScore && paper.score !== undefined)) && paper.questions.length > 0 && (
+
+      {/* Score card section: Show if ( (viewing history OR user submitted this session) OR (showScore prop is true AND paper.score is defined) ) AND there are questions */}
+      {((isReadOnly || userHasSubmittedThisSession) || (showScore && paper.score !== undefined)) && paper.questions.length > 0 && (
          <Card className="mt-8 shadow-lg">
           <CardHeader>
             <CardTitle>Your Score</CardTitle>
           </CardHeader>
           <CardContent className="text-center">
-            {/* If isSubmitted is true, show 'correct' which is live calculated. 
-                If only showScore is true (history), show 'score' from paper data. */}
             <p className="text-4xl font-bold text-primary">
-                {isSubmitted ? correct : score} / {total}
+                {displayFinalScore} / {total}
             </p>
             <p className="text-muted-foreground mt-1">
-              You answered {answered} questions and got {isSubmitted ? correct : score} correct.
+              You answered {answered} questions and got {displayFinalScore} correct.
             </p>
-            {/* Display recorded score from paper object if viewing history and it exists */}
-            {showScore && paper.score !== undefined && !isSubmitted && (
+             {/* This is a bit redundant if displayFinalScore already considers paper.score for history, but kept for clarity if showScore is used independently */}
+            {showScore && paper.score !== undefined && !userHasSubmittedThisSession && isReadOnly && (
                  <p className="text-xs text-muted-foreground">(Paper recorded score: {paper.score}/{total})</p>
             )}
           </CardContent>
