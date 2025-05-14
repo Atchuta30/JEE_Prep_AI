@@ -8,6 +8,7 @@ import { Label } from "@/components/ui/label";
 import MathJaxRenderer from "./mathjax-renderer";
 import type { JEEQuestion } from "@/lib/types";
 import { CheckCircle, XCircle, HelpCircle } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
 interface QuestionCardProps {
   question: JEEQuestion;
@@ -27,7 +28,7 @@ export const QuestionCard: FC<QuestionCardProps> = ({
   isReadOnly = false,
 }) => {
   const handleValueChange = (value: string) => {
-    if (onAnswerSelect) {
+    if (onAnswerSelect && !isReadOnly && !showCorrectAnswer) {
       onAnswerSelect(parseInt(value));
     }
   };
@@ -43,8 +44,8 @@ export const QuestionCard: FC<QuestionCardProps> = ({
             <span
               className={`px-3 py-1 rounded-full text-xs font-semibold
                 ${selectedAnswer === question.correctAnswer 
-                  ? 'bg-foreground text-background' 
-                  : 'bg-muted text-foreground border border-foreground'}`}
+                  ? 'bg-green-500 text-white dark:bg-green-600 dark:text-green-50' 
+                  : 'bg-red-500 text-white dark:bg-red-600 dark:text-red-50'}`}
             >
               {selectedAnswer === question.correctAnswer ? (
                 <CheckCircle className="inline-block mr-1 h-4 w-4" />
@@ -67,32 +68,43 @@ export const QuestionCard: FC<QuestionCardProps> = ({
         >
           {question.options.map((option, index) => {
             const optionId = `q${questionNumber}-option${index}`;
-            let optionStyle = "border-border"; // Default border
+            let optionStyle = "border-border"; 
             let indicatorIcon = null;
-            const indicatorColorClass = "text-foreground";
-
+            
             if (showCorrectAnswer) {
-              if (index === question.correctAnswer) {
-                optionStyle = "border-foreground ring-2 ring-foreground bg-secondary";
-                indicatorIcon = <CheckCircle className={`h-5 w-5 ${indicatorColorClass}`} />;
-              } else if (index === selectedAnswer && selectedAnswer !== question.correctAnswer) {
-                optionStyle = "border-foreground border-dashed ring-1 ring-foreground bg-background opacity-80";
-                indicatorIcon = <XCircle className={`h-5 w-5 ${indicatorColorClass}`} />;
+              const isThisOptionCorrect = index === question.correctAnswer;
+              const isThisOptionSelectedByUser = index === selectedAnswer;
+
+              if (isThisOptionCorrect) {
+                optionStyle = "border-green-500 ring-2 ring-green-500 bg-green-50 dark:bg-green-700/20";
+                indicatorIcon = <CheckCircle className="h-5 w-5 text-green-600 dark:text-green-400" />;
+              } else if (isThisOptionSelectedByUser && !isThisOptionCorrect) { // User selected this, and it's wrong
+                optionStyle = "border-red-500 ring-2 ring-red-500 bg-red-50 dark:bg-red-700/20";
+                indicatorIcon = <XCircle className="h-5 w-5 text-red-600 dark:text-red-400" />;
               } else {
-                // Other non-selected options when answers are shown and not the correct one
-                optionStyle = "opacity-60";
+                // Other non-selected, non-correct options when answers are shown
+                optionStyle = "opacity-60 border-border";
               }
+            } else if (selectedAnswer === index) { // Not showing correct answer yet, but this option is selected
+              optionStyle = "ring-2 ring-primary border-primary";
             }
 
             return (
               <Label
                 key={index}
                 htmlFor={optionId}
-                className={`flex items-start space-x-3 p-4 border rounded-md cursor-pointer transition-all hover:bg-muted/80 ${optionStyle} 
-                  ${(isReadOnly || showCorrectAnswer) ? 'cursor-default' : ''}
-                  ${selectedAnswer === index && !showCorrectAnswer ? 'ring-2 ring-primary border-primary' : ''}`}
+                className={cn(
+                  `flex items-start space-x-3 p-4 border rounded-md transition-all`,
+                  optionStyle,
+                  (isReadOnly || showCorrectAnswer) ? 'cursor-default' : 'cursor-pointer hover:bg-muted/80'
+                )}
               >
-                <RadioGroupItem value={String(index)} id={optionId} className="mt-1" />
+                <RadioGroupItem 
+                  value={String(index)} 
+                  id={optionId} 
+                  className="mt-1" 
+                  disabled={isReadOnly || showCorrectAnswer}
+                />
                 <div className="flex-1">
                   <span className="font-semibold mr-2">{getOptionLabel(index)}.</span>
                   <MathJaxRenderer latex={option} className="inline-block"/>
@@ -112,7 +124,11 @@ export const QuestionCard: FC<QuestionCardProps> = ({
               {question.explanation ? (
                 <MathJaxRenderer latex={question.explanation} />
               ) : (
-                <p>The correct answer is <strong>Option {getOptionLabel(question.correctAnswer)}</strong>.</p>
+                 // Ensure this part is shown if no explicit explanation
+                <>
+                  <p>The correct answer is <strong>Option {getOptionLabel(question.correctAnswer)}</strong>.</p>
+                  <MathJaxRenderer latex={question.options[question.correctAnswer]} className="inline-block"/>
+                </>
               )}
             </div>
           </div>
@@ -121,4 +137,3 @@ export const QuestionCard: FC<QuestionCardProps> = ({
     </Card>
   );
 };
-
