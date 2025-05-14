@@ -1,3 +1,4 @@
+
 "use client";
 
 import type { FC } from 'react';
@@ -101,14 +102,18 @@ export const QuestionCard: FC<QuestionCardProps> = ({
             );
           })}
         </RadioGroup>
-        {showCorrectAnswer && question.explanation && (
-          <div className="mt-4 p-4 border-l-4 border-primary bg-secondary/50 rounded-r-md">
-            <h4 className="font-semibold text-foreground flex items-center">
+        {showCorrectAnswer && (
+          <div className="mt-6 p-4 border-l-4 border-primary bg-secondary/50 rounded-r-md">
+            <h4 className="font-semibold text-foreground flex items-center mb-2">
               <HelpCircle className="h-5 w-5 mr-2 text-primary" />
-              Explanation
+              {question.explanation ? "Explanation" : "Correct Answer"}
             </h4>
-            <div className="mt-2 text-sm text-foreground/80">
-              <MathJaxRenderer latex={question.explanation} />
+            <div className="text-sm text-foreground/80 space-y-1">
+              {question.explanation ? (
+                <MathJaxRenderer latex={question.explanation} />
+              ) : (
+                <p>The correct answer is <strong>Option {getOptionLabel(question.correctAnswer)}</strong>.</p>
+              )}
             </div>
           </div>
         )}
@@ -116,3 +121,4 @@ export const QuestionCard: FC<QuestionCardProps> = ({
     </Card>
   );
 };
+
